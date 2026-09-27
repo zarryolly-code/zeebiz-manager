@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | ZeeBiz Manager</title>
+
+    <style>
+        :root {
+            --primary: {{ business.primary_color|default:"#1F4E79" }};
+            --secondary: {{ business.secondary_color|default:"#F59E0B" }};
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        /* HEADER */
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 5px solid var(--secondary);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .profile-link {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .profile-link:hover {
+            opacity: 0.85;
+        }
+
+        .business-name {
+            font-size: 18px;
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 25px;
+        }
+
+        /* WELCOME */
+        .welcome {
+            margin-bottom: 40px;
+        }
+
+        .welcome h1 {
+            color: var(--primary);
+            font-size: 46px;
+            margin-bottom: 10px;
+        }
+
+        .welcome p {
+            color: #64748b;
+            font-size: 20px;
+        }
+
+        /* DASHBOARD CARDS */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        .card {
+            background: white;
+            padding: 35px;
+            min-height: 210px;
+            border-radius: 18px;
+
+            border-top: 6px solid var(--primary);
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.07);
+
+            text-decoration: none;
+            color: inherit;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                border-color 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.12);
+
+            border-top-color: var(--secondary);
+        }
+
+        .card h2 {
+            color: var(--primary);
+            font-size: 30px;
+            margin-bottom: 14px;
+        }
+
+        .card p {
+            color: #64748b;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        /* MOBILE */
+        @media (max-width: 900px) {
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .welcome h1 {
+                font-size: 38px;
+            }
+
+            .header-right {
+                gap: 12px;
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            header {
+                padding: 18px 5%;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .header-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .container {
+                margin: 35px auto;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome h1 {
+                font-size: 32px;
+            }
+        }
+
+        .subscription-link {
+    display: inline-block;
+    background: #16a34a;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.subscription-link:hover {
+    background: #15803d;
+}
+
+/* FLOATING WHATSAPP SUPPORT */
+.whatsapp-float {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: #25D366;
+    color: white;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.08);
+}
+
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        ZeeBiz Manager
+    </div>
+
+    <div class="header-right">
+
+        <a
+            href="{% url 'business_profile' %}"
+            class="profile-link"
+        >
+            ⚙️ Business Profile
+        </a>
+
+        <div class="business-name">
+            {{ business.name }}
+        </div>
+
+        <a href="{% url 'subscription' %}" class="subscription-link">
+    💳 Subscription
+</a>
+
+<a href="{% url 'plans' %}" class="subscription-link">
+    💰 View Plans & Upgrade
+</a>
+
+        <form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="logout-button">
+        🚪 Logout
+    </button>
+</form>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <!-- WELCOME -->
+    <section class="welcome">
+
+        <h1>
+            Welcome to your Dashboard 👋🏾
+        </h1>
+
+        <p>
+            Manage your business from one place.
+        </p>
+
+    </section>
+
+
+    <!-- DASHBOARD CARDS -->
+    <section class="cards">
+
+        <!-- CUSTOMERS -->
+        <a
+            href="{% url 'customers' %}"
+            class="card"
+        >
+
+            <h2>
+                👥 Customers
+            </h2>
+
+            <p>
+                Manage your customers and their information.
+            </p>
+
+        </a>
+
+
+        <!-- SERVICES -->
+        <a
+            href="/accounts/services/"
+            class="card"
+        >
+
+            <h2>
+                🧹 Services
+            </h2>
+
+            <p>
+                Manage your cleaning and other business services.
+            </p>
+
+        </a>
+
+
+        <!-- QUOTATIONS -->
+        <a
+            href="{% url 'quotation_list' %}"
+            class="card"
+        >
+
+            <h2>
+                📋 Quotations
+            </h2>
+
+            <p>
+                Create and manage customer quotations.
+            </p>
+
+        </a>
+
+
+        <!-- INVOICES -->
+        <a
+            href="/invoices/"
+            class="card"
+        >
+
+            <h2>
+                🧾 Invoices
+            </h2>
+
+            <p>
+                Create professional invoices for your customers.
+            </p>
+
+        </a>
+
+
+        <!-- PAYMENTS -->
+        <a
+            href="/receipts/"
+            class="card"
+        >
+
+            <h2>
+                💰 Payments
+            </h2>
+
+            <p>
+                Track payments received from customers.
+            </p>
+
+        </a>
+
+
+        <!-- REPORTS -->
+        <a
+            href="/reports/"
+            class="card"
+        >
+
+            <h2>
+                📊 Reports
+            </h2>
+
+            <p>
+                View useful business information and reports.
+            </p>
+
+        </a>
+
+    </section>
+
+</main>
+
+<a
+    href="https://wa.me/2348185088736?text=Hello%20ZeeBiz%20Support%2C%20I%20need%20help%20with%20my%20account."
+    class="whatsapp-float"
+    target="_blank"
+    rel="noopener noreferrer"
+    title="Contact ZeeBiz Support"
+>
+    💬
+</a>
+
+
+</body>
+</html>

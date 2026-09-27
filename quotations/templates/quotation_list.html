@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Quotations | ZeeBiz Manager</title>
+
+<style>
+    :root {
+        --primary: {{ business.primary_color|default:"#1F4E79" }};
+        --secondary: {{ business.secondary_color|default:"#F59E0B" }};
+
+        --light-primary: color-mix(
+            in srgb,
+            var(--primary) 8%,
+            white
+        );
+
+        --light-secondary: color-mix(
+            in srgb,
+            var(--secondary) 10%,
+            white
+        );
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f7fb;
+        color: #1f2937;
+    }
+
+    header {
+        background: var(--primary);
+        color: white;
+        padding: 20px 8%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 4px solid var(--secondary);
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .container {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .top h1 {
+        margin-bottom: 6px;
+        color: var(--primary);
+    }
+
+    .top p {
+        color: #6b7280;
+    }
+
+    .button {
+        background: var(--secondary);
+        color: white;
+        text-decoration: none;
+        padding: 12px 18px;
+        border-radius: 8px;
+        font-weight: bold;
+    }
+
+    .button:hover {
+        opacity: 0.9;
+    }
+
+    .card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        border-top: 4px solid var(--primary);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        padding: 16px;
+        text-align: left;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    th {
+        background: var(--light-primary);
+        color: var(--primary);
+        font-size: 14px;
+        border-bottom: 2px solid var(--secondary);
+    }
+
+    td {
+        font-size: 14px;
+    }
+
+    .status {
+        padding: 5px 10px;
+        border-radius: 20px;
+        background: var(--light-secondary);
+        color: var(--primary);
+        border: 1px solid var(--secondary);
+        font-size: 12px;
+        text-transform: capitalize;
+    }
+
+    .empty {
+        padding: 50px 20px;
+        text-align: center;
+        color: #6b7280;
+    }
+
+    .empty h2 {
+        color: var(--primary);
+        margin-bottom: 8px;
+    }
+
+    .back {
+        display: inline-block;
+        margin-top: 20px;
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .back:hover {
+        color: var(--secondary);
+    }
+
+    @media (max-width: 700px) {
+
+        .top {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .card {
+            overflow-x: auto;
+        }
+
+        table {
+            min-width: 700px;
+        }
+    }
+</style>
+
+</head>
+
+<body>
+
+<header>
+    <div class="logo">ZeeBiz Manager</div>
+    <div>{{ business.name }}</div>
+</header>
+
+<main class="container">
+
+<div class="top">
+
+    <div>
+        <h1>📋 Quotations</h1>
+        <p>Manage your customer quotations.</p>
+    </div>
+
+    <a href="{% url 'quotation_create' %}" class="button">
+        + New Quotation
+    </a>
+
+</div>
+
+<div class="card">
+
+    {% if quotations %}
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Quotation No.</th>
+                    <th>Customer</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for quotation in quotations %}
+
+                    <tr>
+
+                        <td>
+                            <a
+                                href="{% url 'quotation_detail' quotation.id %}"
+                                style="
+                                    color: var(--primary);
+                                    font-weight: bold;
+                                    text-decoration: none;
+                                "
+                            >
+                                {{ quotation.quotation_number }}
+                            </a>
+                        </td>
+
+                        <td>
+                            {{ quotation.customer.name }}
+                        </td>
+
+                        <td>
+                            {{ quotation.quotation_date }}
+                        </td>
+
+                        <td>
+                            <span class="status">
+                                {{ quotation.get_status_display }}
+                            </span>
+                        </td>
+
+                        <td>
+                            ₦{{ quotation.total }}
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    {% else %}
+
+        <div class="empty">
+
+            <h2>No quotations yet 📋</h2>
+
+            <p>
+                You haven't created any quotations yet.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+<a href="{% url 'dashboard' %}" class="back">
+    ← Back to Dashboard
+</a>
+
+</main>
+
+</body>
+</html>

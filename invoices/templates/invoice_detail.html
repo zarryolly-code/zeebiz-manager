@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Invoice {{ invoice.invoice_number }} | ZeeBiz Manager</title>
+
+    <style>
+        :root {
+            --primary: {{ business.primary_color|default:"#1F4E79" }};
+            --secondary: {{ business.secondary_color|default:"#F59E0B" }};
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            background: #f3f4f6;
+            font-family: Arial, sans-serif;
+            color: #1f2937;
+        }
+
+        .invoice {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(0,0,0,.10);
+        }
+
+        .top-bar {
+            height: 8px;
+            background: var(--secondary);
+        }
+
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: 35px 45px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .business {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .business-logo {
+            width: 85px;
+            height: 85px;
+            object-fit: contain;
+            background: white;
+            border-radius: 10px;
+            padding: 6px;
+        }
+
+        .business-name {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .business-info {
+            margin-top: 8px;
+            line-height: 1.6;
+            font-size: 13px;
+            opacity: .95;
+        }
+
+        .invoice-title {
+            text-align: right;
+        }
+
+        .invoice-title h1 {
+            margin: 0;
+            font-size: 42px;
+            letter-spacing: 2px;
+        }
+
+        .invoice-number {
+            margin-top: 8px;
+            font-size: 15px;
+        }
+
+        .content {
+            padding: 40px 45px;
+            position: relative;
+        }
+
+        .watermark {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-25deg);
+            font-size: 85px;
+            font-weight: bold;
+            color: var(--primary);
+            opacity: .035;
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .content > *:not(.watermark) {
+            position: relative;
+            z-index: 1;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 35px;
+            margin-bottom: 35px;
+        }
+
+        .box h3 {
+            color: var(--primary);
+            margin: 0 0 10px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .box p {
+            margin: 4px 0;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .table th {
+            background: var(--primary);
+            color: white;
+            padding: 14px;
+            text-align: left;
+        }
+
+        .table td {
+            padding: 14px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .amount {
+            text-align: right;
+        }
+
+        .summary {
+            width: 330px;
+            margin-left: auto;
+            margin-top: 30px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 9px 0;
+        }
+
+        .total {
+            border-top: 3px solid var(--secondary);
+            margin-top: 8px;
+            padding-top: 14px;
+            font-size: 21px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .status {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 9px 16px;
+            border-radius: 20px;
+            background: var(--secondary);
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        .notes {
+            margin-top: 35px;
+            padding: 20px;
+            border-left: 4px solid var(--secondary);
+            background: #f8fafc;
+        }
+
+        .notes h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+
+        .footer {
+            padding: 25px 45px;
+            background: #f8fafc;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .actions {
+            max-width: 900px;
+            margin: 20px auto 0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .actions a,
+        .actions button {
+            border: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .actions button {
+            background: var(--secondary);
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+
+            .invoice {
+                box-shadow: none;
+                max-width: none;
+            }
+
+            .actions {
+                display: none;
+            }
+
+            .top-bar,
+            .header,
+            .table th {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        @media (max-width: 650px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 25px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 25px;
+            }
+
+            .invoice-title {
+                text-align: left;
+            }
+
+            .content {
+                padding: 25px;
+            }
+
+            .details {
+                grid-template-columns: 1fr;
+            }
+
+            .summary {
+                width: 100%;
+            }
+
+            .business-name {
+                font-size: 22px;
+            }
+
+            .invoice-title h1 {
+                font-size: 34px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="invoice">
+
+    <div class="top-bar"></div>
+
+    <header class="header">
+
+        <div class="business">
+
+            {% if business.logo %}
+                <img
+                    src="{{ business.logo.url }}"
+                    alt="{{ business.name }} logo"
+                    class="business-logo"
+                >
+            {% endif %}
+
+            <div>
+                <div class="business-name">
+                    {{ business.name }}
+                </div>
+
+                <div class="business-info">
+
+                    {% if business.tagline %}
+                        {{ business.tagline }}<br>
+                    {% endif %}
+
+                    {% if business.address %}
+                        {{ business.address }}<br>
+                    {% endif %}
+
+                    {% if business.phone %}
+                        {{ business.phone }}
+                    {% endif %}
+
+                    {% if business.email %}
+                        | {{ business.email }}
+                    {% endif %}
+
+                    {% if business.website %}
+                        <br>{{ business.website }}
+                    {% endif %}
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="invoice-title">
+            <h1>INVOICE</h1>
+
+            <div class="invoice-number">
+                #{{ invoice.invoice_number }}
+            </div>
+        </div>
+
+    </header>
+
+
+    <main class="content">
+
+        <div class="watermark">
+            {{ business.name }}
+        </div>
+
+
+        <div class="details">
+
+            <div class="box">
+
+                <h3>Bill To</h3>
+
+                <p>
+                    <strong>{{ invoice.customer.name }}</strong>
+                </p>
+
+                {% if invoice.customer.email %}
+                    <p>{{ invoice.customer.email }}</p>
+                {% endif %}
+
+                {% if invoice.customer.phone %}
+                    <p>{{ invoice.customer.phone }}</p>
+                {% endif %}
+
+                {% if invoice.customer.address %}
+                    <p>{{ invoice.customer.address }}</p>
+                {% endif %}
+
+            </div>
+
+
+            <div class="box">
+
+                <h3>Invoice Details</h3>
+
+                <p>
+                    <strong>Invoice Date:</strong>
+                    {{ invoice.invoice_date }}
+                </p>
+
+                {% if invoice.due_date %}
+                    <p>
+                        <strong>Due Date:</strong>
+                        {{ invoice.due_date }}
+                    </p>
+                {% endif %}
+
+                <span class="status">
+                    {{ invoice.get_status_display }}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <table class="table">
+
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th class="amount">Amount</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>
+                        Services / Invoice Subtotal
+                    </td>
+
+                    <td class="amount">
+                        ₦{{ invoice.subtotal|floatformat:2 }}
+                    </td>
+                </tr>
+
+                {% if invoice.discount > 0 %}
+
+                <tr>
+                    <td>
+                        Discount
+                    </td>
+
+                    <td class="amount">
+                        - ₦{{ invoice.discount|floatformat:2 }}
+                    </td>
+                </tr>
+
+                {% endif %}
+
+            </tbody>
+
+        </table>
+
+
+        <div class="summary">
+
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <strong>
+                    ₦{{ invoice.subtotal|floatformat:2 }}
+                </strong>
+            </div>
+
+            <div class="summary-row">
+                <span>Discount</span>
+                <strong>
+                    ₦{{ invoice.discount|floatformat:2 }}
+                </strong>
+            </div>
+
+            <div class="summary-row total">
+                <span>Total</span>
+                <span>
+                    ₦{{ invoice.total|floatformat:2 }}
+                </span>
+            </div>
+
+            <div class="summary-row">
+                <span>Amount Paid</span>
+                <strong>
+                    ₦{{ invoice.amount_paid|floatformat:2 }}
+                </strong>
+            </div>
+
+            <div class="summary-row">
+                <span>Balance</span>
+                <strong>
+                    ₦{{ invoice.balance|floatformat:2 }}
+                </strong>
+            </div>
+
+        </div>
+
+
+        {% if invoice.notes %}
+
+        <div class="notes">
+
+            <h3>Notes</h3>
+
+            <p>
+                {{ invoice.notes }}
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </main>
+
+
+    <footer class="footer">
+
+        Thank you for your business.
+
+        {% if business.name %}
+            | {{ business.name }}
+        {% endif %}
+
+    </footer>
+
+</div>
+
+
+<div class="actions">
+
+    <a href="{% url 'invoice_edit' invoice.id %}">
+        ✏️ Edit Invoice
+    </a>
+
+    <a href="{% url 'invoice_delete' invoice.id %}">
+    🗑️ Delete Invoice
+</a>
+
+    <a href="{% url 'receipt_create' %}">
+        💰 Convert to Receipt
+    </a>
+
+    <button onclick="window.print()">
+        🖨️ Print / Save as PDF
+    </button>
+
+</div>
+
+</body>
+</html>

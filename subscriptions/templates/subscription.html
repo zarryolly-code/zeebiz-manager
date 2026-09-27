@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription | ZeeBiz Manager</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f8fafc;
+            padding: 40px 8%;
+        }
+
+        .subscription-card {
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        h1 {
+            color: #6A5CFF;
+        }
+
+        .plan {
+            font-size: 28px;
+            font-weight: bold;
+            color: #00A86B;
+            margin: 20px 0;
+        }
+
+        .status {
+            font-weight: bold;
+            color: #16a34a;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 25px;
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(90deg, #00B4DB, #6A5CFF);
+            padding: 12px 22px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="subscription-card">
+
+    <h1>Subscription</h1>
+
+    <p><strong>{{ business.name }}</strong></p>
+
+    <div class="plan">
+        {{ subscription.plan }} Plan
+    </div>
+
+    <p>
+        Status:
+        <span class="status">
+            {% if subscription.is_active %}
+                Active
+            {% else %}
+                Inactive
+            {% endif %}
+        </span>
+    </p>
+
+    <p>
+        Start Date: {{ subscription.start_date }}
+    </p>
+
+    {% if subscription.expiry_date %}
+        <p>
+            Expiry Date: {{ subscription.expiry_date }}
+        </p>
+    {% endif %}
+    
+   <a href="{% url 'plans' %}" class="choose-plan-button" style="margin-right: 15px;">
+    Choose / Change Plan
+</a>
+
+    <a href="{% url 'dashboard' %}" class="back-link">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>

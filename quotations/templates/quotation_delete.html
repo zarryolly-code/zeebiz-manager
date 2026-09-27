@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Delete Quotation | ZeeBiz Manager</title>
+
+    <style>
+        :root {
+            --primary: {{ business.primary_color|default:"#1F4E79" }};
+            --secondary: {{ business.secondary_color|default:"#F59E0B" }};
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            color: #1f2937;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 80px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 25px rgba(0,0,0,.08);
+        }
+
+        .icon {
+            font-size: 55px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #dc2626;
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .quotation-number {
+            font-weight: bold;
+            color: var(--primary);
+            margin: 20px 0;
+        }
+
+        .warning {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        button,
+        a {
+            padding: 13px 22px;
+            border-radius: 8px;
+            border: none;
+            font-weight: bold;
+            font-size: 15px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .delete-button {
+            background: #dc2626;
+            color: white;
+        }
+
+        .cancel-button {
+            background: #e5e7eb;
+            color: #1f2937;
+        }
+
+        .delete-button:hover {
+            background: #b91c1c;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 30px 20px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            button,
+            a {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <div class="icon">
+            ⚠️
+        </div>
+
+        <h1>
+            Delete Quotation?
+        </h1>
+
+        <p>
+            Are you sure you want to delete this quotation?
+        </p>
+
+        <div class="quotation-number">
+            {{ quotation.quotation_number }}
+        </div>
+
+        <div class="warning">
+            This action cannot be undone.
+        </div>
+
+        <div class="buttons">
+
+            <a
+                href="{% url 'quotation_detail' quotation.id %}"
+                class="cancel-button"
+            >
+                ← Cancel
+            </a>
+
+            <form
+                method="POST"
+                style="display:inline;"
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="delete-button"
+                >
+                    🗑️ Yes, Delete
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

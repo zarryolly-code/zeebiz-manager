@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers | ZeeBiz Manager</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .top h1 {
+            margin-bottom: 8px;
+        }
+
+        .top p {
+            color: #6b7280;
+        }
+
+        .back {
+            text-decoration: none;
+            color: #111827;
+            font-weight: bold;
+        }
+
+        .customer-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+        }
+
+        .customer-card h2 {
+            margin-bottom: 15px;
+        }
+
+        .customer-info {
+            line-height: 1.8;
+            color: #4b5563;
+        }
+
+        .empty {
+            background: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 12px;
+            color: #6b7280;
+        }
+
+        .add-btn {
+    display: inline-block;
+    margin-left: 15px;
+    padding: 12px 18px;
+    background: #111827;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+        @media (max-width: 700px) {
+            .top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">ZeeBiz Manager</div>
+        <div>ELITEZ INTEGRATED SERVICES</div>
+    </header>
+
+    <main class="container">
+
+        <div class="top">
+    <div>
+        <h1>Customers 👥</h1>
+        <p>Manage your business customers.</p>
+    </div>
+
+    <div>
+        <a href="/accounts/dashboard/" class="back">
+            ← Back to Dashboard
+        </a>
+
+        <a href="/accounts/customers/add/" class="add-btn">
+            + Add Customer
+        </a>
+    </div>
+</div>
+        {% for customer in customers %}
+
+<div class="customer-card">
+    <h2><a href="/accounts/customers/{{ customer.id }}/" style="text-decoration: none; color: inherit;">
+        {{ customer.name }}
+    </a>
+</h2>
+
+    <div class="customer-info">
+        <p><strong>Email:</strong> {{ customer.email }}</p>
+        <p><strong>Phone:</strong> {{ customer.phone }}</p>
+        <p><strong>Address:</strong> {{ customer.address }}</p>
+    </div>
+</div>
+
+{% empty %}
+
+<div class="empty">
+    <p>No customers have been added yet.</p>
+</div>
+
+{% endfor %}
+
+    </main>
+
+</body>
+</html>

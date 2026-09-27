@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Receipt {{ receipt.receipt_number }} | ZeeBiz Manager</title>
+
+    <style>
+        :root {
+            --primary: {{ business.primary_color|default:"#1F4E79" }};
+            --secondary: {{ business.secondary_color|default:"#F59E0B" }};
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            background: #f3f4f6;
+            font-family: Arial, sans-serif;
+            color: #1f2937;
+        }
+
+        .receipt {
+            max-width: 850px;
+            margin: auto;
+            background: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, .10);
+        }
+
+        .top-bar {
+            height: 8px;
+            background: var(--secondary);
+        }
+
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: 35px 45px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .business {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .business-logo {
+            width: 85px;
+            height: 85px;
+            object-fit: contain;
+            background: white;
+            border-radius: 10px;
+            padding: 6px;
+        }
+
+        .business-name {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .business-info {
+            margin-top: 8px;
+            line-height: 1.6;
+            font-size: 13px;
+            opacity: .95;
+        }
+
+        .receipt-title {
+            text-align: right;
+        }
+
+        .receipt-title h1 {
+            margin: 0;
+            font-size: 38px;
+            letter-spacing: 2px;
+        }
+
+        .receipt-number {
+            margin-top: 8px;
+            font-size: 15px;
+        }
+
+        .content {
+            padding: 40px 45px;
+            position: relative;
+        }
+
+        .watermark {
+            position: absolute;
+            top: 48%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-25deg);
+            font-size: 78px;
+            font-weight: bold;
+            color: var(--primary);
+            opacity: .035;
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .content > *:not(.watermark) {
+            position: relative;
+            z-index: 1;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 35px;
+            margin-bottom: 35px;
+        }
+
+        .box h3 {
+            color: var(--primary);
+            margin: 0 0 10px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .box p {
+            margin: 5px 0;
+        }
+
+        .payment-box {
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .payment-box h2 {
+            margin: 0 0 20px;
+            color: var(--primary);
+        }
+
+        .payment-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .payment-row:last-child {
+            border-bottom: none;
+        }
+
+        .amount-paid {
+            margin-top: 20px;
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .amount-paid strong {
+            font-size: 25px;
+        }
+
+        .balance {
+            margin-top: 15px;
+            padding: 15px 20px;
+            background: #f8fafc;
+            border-left: 4px solid var(--secondary);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .notes {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8fafc;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .notes h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+
+        .footer {
+            padding: 25px 45px;
+            background: #f8fafc;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .actions {
+            max-width: 850px;
+            margin: 20px auto 0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .actions a,
+        .actions button {
+            border: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .actions button {
+            background: var(--secondary);
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+
+            .receipt {
+                box-shadow: none;
+                max-width: none;
+            }
+
+            .actions {
+                display: none;
+            }
+
+            .top-bar,
+            .header,
+            .amount-paid {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 25px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 25px;
+            }
+
+            .receipt-title {
+                text-align: left;
+            }
+
+            .content {
+                padding: 25px;
+            }
+
+            .details {
+                grid-template-columns: 1fr;
+            }
+
+            .business-name {
+                font-size: 22px;
+            }
+
+            .receipt-title h1 {
+                font-size: 32px;
+            }
+
+            .amount-paid,
+            .balance {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="receipt">
+
+    <div class="top-bar"></div>
+
+    <header class="header">
+
+        <div class="business">
+
+            {% if business.logo %}
+                <img
+                    src="{{ business.logo.url }}"
+                    alt="{{ business.name }} logo"
+                    class="business-logo"
+                >
+            {% endif %}
+
+            <div>
+
+                <div class="business-name">
+                    {{ business.name }}
+                </div>
+
+                <div class="business-info">
+
+                    {% if business.tagline %}
+                        {{ business.tagline }}<br>
+                    {% endif %}
+
+                    {% if business.address %}
+                        {{ business.address }}<br>
+                    {% endif %}
+
+                    {% if business.phone %}
+                        {{ business.phone }}
+                    {% endif %}
+
+                    {% if business.email %}
+                        | {{ business.email }}
+                    {% endif %}
+
+                    {% if business.website %}
+                        <br>{{ business.website }}
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="receipt-title">
+
+            <h1>RECEIPT</h1>
+
+            <div class="receipt-number">
+                #{{ receipt.receipt_number }}
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <main class="content">
+
+        <div class="watermark">
+            {{ business.name }}
+        </div>
+
+
+        <div class="details">
+
+            <div class="box">
+
+                <h3>Received From</h3>
+
+                <p>
+                    <strong>
+                        {{ receipt.customer.name }}
+                    </strong>
+                </p>
+
+                {% if receipt.customer.email %}
+                    <p>{{ receipt.customer.email }}</p>
+                {% endif %}
+
+                {% if receipt.customer.phone %}
+                    <p>{{ receipt.customer.phone }}</p>
+                {% endif %}
+
+                {% if receipt.customer.address %}
+                    <p>{{ receipt.customer.address }}</p>
+                {% endif %}
+
+            </div>
+
+
+            <div class="box">
+
+                <h3>Receipt Details</h3>
+
+                <p>
+                    <strong>Date:</strong>
+                    {{ receipt.receipt_date }}
+                </p>
+
+                <p>
+                    <strong>Payment Method:</strong>
+                    {{ receipt.get_payment_method_display }}
+                </p>
+
+                {% if receipt.quotation %}
+                    <p>
+                        <strong>Quotation:</strong>
+                        {{ receipt.quotation.quotation_number }}
+                    </p>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <div class="payment-box">
+
+            <h2>Payment Details</h2>
+
+            {% if receipt.description %}
+
+                <div class="payment-row">
+                    <span>Description</span>
+                    <strong>{{ receipt.description }}</strong>
+                </div>
+
+            {% endif %}
+
+            <div class="payment-row">
+                <span>Payment Method</span>
+                <strong>
+                    {{ receipt.get_payment_method_display }}
+                </strong>
+            </div>
+
+            {% if receipt.quotation %}
+
+                <div class="payment-row">
+                    <span>Quotation Total</span>
+                    <strong>
+                        ₦{{ quotation_total|floatformat:2 }}
+                    </strong>
+                </div>
+
+            {% endif %}
+
+            <div class="amount-paid">
+
+                <span>Amount Received</span>
+
+                <strong>
+                    ₦{{ receipt.amount_paid|floatformat:2 }}
+                </strong>
+
+            </div>
+
+            {% if receipt.quotation %}
+
+                <div class="balance">
+
+                    <span>Remaining Balance</span>
+
+                    <strong>
+                        ₦{{ balance|floatformat:2 }}
+                    </strong>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        {% if receipt.notes %}
+
+            <div class="notes">
+
+                <h3>Notes</h3>
+
+                <p>
+                    {{ receipt.notes }}
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </main>
+
+
+    <footer class="footer">
+
+        Thank you for your payment.
+
+        {% if business.name %}
+            | {{ business.name }}
+        {% endif %}
+
+    </footer>
+
+</div>
+
+
+<div class="actions">
+
+    <a href="{% url 'receipt_edit' receipt.id %}">
+        ✏️ Edit Receipt
+    </a>
+
+    <a
+    href="{% url 'receipt_delete' receipt.id %}"
+    class="delete-button"
+>
+    🗑️ Delete Receipt
+</a>
+
+    <button onclick="window.print()">
+        🖨️ Print / Save as PDF
+    </button>
+
+</div>
+
+</body>
+</html>

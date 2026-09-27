@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>Create Invoice | ZeeBiz Manager</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #eef2f7;
+        color: #111827;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+        background: linear-gradient(
+            135deg,
+            #10182f,
+            #202c72
+        );
+
+        color: white;
+
+        padding: 22px 7%;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        position: relative;
+    }
+
+    header::after {
+        content: "";
+
+        position: absolute;
+
+        bottom: 0;
+        left: 0;
+
+        width: 100%;
+        height: 5px;
+
+        background: linear-gradient(
+            90deg,
+            #ff9f00,
+            #ff4d6d,
+            #9b51e0,
+            #3478f6,
+            #00c2d7
+        );
+    }
+
+    .logo {
+        font-size: 25px;
+        font-weight: 900;
+    }
+
+    .business-name {
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    /* =========================
+       CONTAINER
+    ========================= */
+
+    .container {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    /* =========================
+       BACK
+    ========================= */
+
+    .back {
+        display: inline-block;
+
+        margin-bottom: 22px;
+
+        padding: 10px 16px;
+
+        background: #e5e7eb;
+
+        color: #111827;
+
+        border-radius: 8px;
+
+        text-decoration: none;
+
+        font-weight: 700;
+    }
+
+    .back:hover {
+        background: #d1d5db;
+    }
+
+    /* =========================
+       CARD
+    ========================= */
+
+    .card {
+        background: white;
+
+        padding: 38px;
+
+        border-radius: 16px;
+
+        box-shadow:
+            0 5px 25px rgba(0, 0, 0, 0.07);
+    }
+
+    h1 {
+        font-size: 30px;
+        margin-bottom: 8px;
+    }
+
+    .subtitle {
+        color: #6b7280;
+        margin-bottom: 32px;
+    }
+
+    /* =========================
+       FORM
+    ========================= */
+
+    .form-group {
+        margin-bottom: 22px;
+    }
+
+    label {
+        display: block;
+
+        margin-bottom: 8px;
+
+        font-weight: 800;
+
+        color: #374151;
+    }
+
+    input,
+    select,
+    textarea {
+        width: 100%;
+
+        padding: 13px 14px;
+
+        border: 1px solid #d1d5db;
+
+        border-radius: 9px;
+
+        font-size: 15px;
+
+        background: white;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+        outline: none;
+
+        border-color: #625df5;
+
+        box-shadow:
+            0 0 0 3px rgba(98, 93, 245, 0.12);
+    }
+
+    input[readonly] {
+        background: #eef2ff;
+        cursor: not-allowed;
+    }
+
+    textarea {
+        min-height: 110px;
+
+        resize: vertical;
+    }
+
+    .form-row {
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        gap: 20px;
+    }
+
+    .required {
+        color: #dc2626;
+    }
+
+    /* =========================
+       FINANCIAL SECTION
+    ========================= */
+
+    .financial-section {
+        margin-top: 30px;
+
+        padding: 25px;
+
+        background: #f7f9fc;
+
+        border-radius: 14px;
+
+        border-left: 5px solid #625df5;
+    }
+
+    .financial-title {
+        font-size: 19px;
+
+        font-weight: 900;
+
+        color: #111827;
+
+        margin-bottom: 22px;
+    }
+
+    .total-field {
+        background: #eef2ff;
+
+        border: 2px solid #625df5;
+
+        font-weight: 900;
+
+        color: #4338ca;
+    }
+
+    .balance-box {
+        margin-top: 5px;
+
+        padding: 18px;
+
+        background: #fff7e6;
+
+        border-radius: 10px;
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        gap: 15px;
+    }
+
+    .balance-label {
+        font-weight: 800;
+
+        color: #92400e;
+    }
+
+    .balance-value {
+        font-size: 22px;
+
+        font-weight: 900;
+
+        color: #b85c00;
+    }
+
+    /* =========================
+       BUTTON
+    ========================= */
+
+    button {
+        width: 100%;
+
+        padding: 15px;
+
+        border: none;
+
+        border-radius: 9px;
+
+        background: #111827;
+
+        color: white;
+
+        font-size: 16px;
+
+        font-weight: 800;
+
+        cursor: pointer;
+
+        margin-top: 15px;
+    }
+
+    button:hover {
+        background: #202c72;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 650px) {
+
+        header {
+            padding: 20px;
+        }
+
+        .business-name {
+            display: none;
+        }
+
+        .container {
+            margin-top: 25px;
+        }
+
+        .card {
+            padding: 24px;
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+
+        h1 {
+            font-size: 26px;
+        }
+
+        .balance-box {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+<header>
+
+```
+<div class="logo">
+    ZeeBiz Manager
+</div>
+
+<div class="business-name">
+    {{ business.name }}
+</div>
+```
+
+</header>
+
+<main class="container">
+
+```
+<a
+    href="{% url 'invoice_list' %}"
+    class="back"
+>
+    ← Back to Invoices
+</a>
+
+
+<div class="card">
+
+    <h1>
+        Create Invoice 🧾
+    </h1>
+
+    <p class="subtitle">
+        Create a professional invoice for your customer.
+    </p>
+
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+
+        <!-- INVOICE NUMBER -->
+
+        <div class="form-group">
+
+            <label for="invoice_number">
+                Invoice Number <span class="required">*</span>
+            </label>
+
+            <input
+                type="text"
+                id="invoice_number"
+                name="invoice_number"
+                placeholder="INV-20260814-001"
+                required
+            >
+
+        </div>
+
+
+        <!-- CUSTOMER -->
+
+        <div class="form-group">
+
+            <label for="customer">
+                Customer <span class="required">*</span>
+            </label>
+
+            <select
+                id="customer"
+                name="customer"
+                required
+            >
+
+                <option value="">
+                    Select Customer
+                </option>
+
+                {% for customer in customers %}
+
+                    <option value="{{ customer.id }}">
+                        {{ customer.name }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+
+        <!-- DATE / STATUS -->
+
+        <div class="form-row">
+
+            <div class="form-group">
+
+                <label for="due_date">
+                    Due Date
+                </label>
+
+                <input
+                    type="date"
+                    id="due_date"
+                    name="due_date"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="status">
+                    Status
+                </label>
+
+                <select
+                    id="status"
+                    name="status"
+                >
+
+                    <option value="draft">
+                        Draft
+                    </option>
+
+                    <option value="sent">
+                        Sent
+                    </option>
+
+                    <option value="paid">
+                        Paid
+                    </option>
+
+                    <option value="partially_paid">
+                        Partially Paid
+                    </option>
+
+                    <option value="overdue">
+                        Overdue
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             FINANCIAL INFORMATION
+        ========================= -->
+
+        <div class="financial-section">
+
+            <div class="financial-title">
+                Financial Information 💰
+            </div>
+
+
+            <!-- SUBTOTAL -->
+
+            <div class="form-group">
+
+                <label for="subtotal">
+                    Subtotal
+                </label>
+
+                <input
+                    type="number"
+                    id="subtotal"
+                    name="subtotal"
+                    step="0.01"
+                    min="0"
+                    value="0"
+                >
+
+            </div>
+
+
+            <!-- DISCOUNT -->
+
+            <div class="form-group">
+
+                <label for="discount">
+                    Discount
+                </label>
+
+                <input
+                    type="number"
+                    id="discount"
+                    name="discount"
+                    step="0.01"
+                    min="0"
+                    value="0"
+                >
+
+            </div>
+
+
+            <!-- TOTAL -->
+
+            <div class="form-group">
+
+                <label for="total">
+                    Total Amount
+                </label>
+
+                <input
+                    type="number"
+                    id="total"
+                    name="total"
+                    step="0.01"
+                    min="0"
+                    value="0"
+                    class="total-field"
+                    readonly
+                >
+
+            </div>
+
+
+            <!-- AMOUNT PAID -->
+
+            <div class="form-group">
+
+                <label for="amount_paid">
+                    Amount Paid
+                </label>
+
+                <input
+                    type="number"
+                    id="amount_paid"
+                    name="amount_paid"
+                    step="0.01"
+                    min="0"
+                    value="0"
+                >
+
+            </div>
+
+
+            <!-- BALANCE -->
+
+            <div class="balance-box">
+
+                <span class="balance-label">
+                    Outstanding Balance
+                </span>
+
+                <span
+                    class="balance-value"
+                    id="balance_display"
+                >
+                    ₦0.00
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- NOTES -->
+
+        <div
+            class="form-group"
+            style="margin-top: 25px;"
+        >
+
+            <label for="notes">
+                Notes
+            </label>
+
+            <textarea
+                id="notes"
+                name="notes"
+                placeholder="Add any additional information..."
+            ></textarea>
+
+        </div>
+
+
+        <button type="submit">
+            Create Invoice
+        </button>
+
+    </form>
+
+</div>
+```
+
+</main>
+
+<!-- =========================
+     CALCULATION
+========================= -->
+
+<script>
+
+    const subtotalInput =
+        document.getElementById("subtotal");
+
+    const discountInput =
+        document.getElementById("discount");
+
+    const totalInput =
+        document.getElementById("total");
+
+    const amountPaidInput =
+        document.getElementById("amount_paid");
+
+    const balanceDisplay =
+        document.getElementById("balance_display");
+
+
+    function calculateInvoice() {
+
+        const subtotal =
+            parseFloat(subtotalInput.value) || 0;
+
+        const discount =
+            parseFloat(discountInput.value) || 0;
+
+        let amountPaid =
+            parseFloat(amountPaidInput.value) || 0;
+
+
+        let total =
+            subtotal - discount;
+
+
+        if (total < 0) {
+            total = 0;
+        }
+
+
+        if (amountPaid < 0) {
+            amountPaid = 0;
+        }
+
+
+        if (amountPaid > total) {
+            amountPaid = total;
+        }
+
+
+        let balance =
+            total - amountPaid;
+
+
+        if (balance < 0) {
+            balance = 0;
+        }
+
+
+        totalInput.value =
+            total.toFixed(2);
+
+
+        balanceDisplay.textContent =
+            "₦" + balance.toFixed(2);
+
+    }
+
+
+    subtotalInput.addEventListener(
+        "input",
+        calculateInvoice
+    );
+
+
+    discountInput.addEventListener(
+        "input",
+        calculateInvoice
+    );
+
+
+    amountPaidInput.addEventListener(
+        "input",
+        calculateInvoice
+    );
+
+
+    calculateInvoice();
+
+</script>
+
+</body>
+</html>

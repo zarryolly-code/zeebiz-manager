@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reports | {{ business.name }}</title>
+
+    <style>
+        :root {
+            --primary: {{ business.primary_color|default:"#1F4E79" }};
+            --secondary: {{ business.secondary_color|default:"#F59E0B" }};
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 5px solid var(--secondary);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .business-name {
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 45px auto;
+            padding: 0 25px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 25px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back:hover {
+            opacity: 0.8;
+        }
+
+        .heading {
+            margin-bottom: 35px;
+        }
+
+        .heading h1 {
+            color: var(--primary);
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .heading p {
+            color: #64748b;
+            font-size: 18px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 22px;
+            margin-bottom: 35px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 28px;
+            border-radius: 15px;
+            border-top: 5px solid var(--primary);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .stat-card h3 {
+            color: #64748b;
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .stat-card .number {
+            color: var(--primary);
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .report-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+            border-left: 5px solid var(--secondary);
+        }
+
+        .report-card h2 {
+            color: var(--primary);
+            margin-bottom: 22px;
+            font-size: 23px;
+        }
+
+        .report-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 13px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .report-row:last-child {
+            border-bottom: none;
+        }
+
+        .report-row span {
+            color: #64748b;
+        }
+
+        .report-row strong {
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .balance {
+            color: var(--secondary) !important;
+        }
+
+        @media (max-width: 900px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .reports-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .container {
+                margin: 30px auto;
+            }
+
+            .heading h1 {
+                font-size: 32px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        ZeeBiz Manager
+    </div>
+
+    <div class="business-name">
+        {{ business.name }}
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <a
+        href="{% url 'dashboard' %}"
+        class="back"
+    >
+        ← Back to Dashboard
+    </a>
+
+
+    <section class="heading">
+
+        <h1>
+            Business Reports 📊
+        </h1>
+
+        <p>
+            Overview of your business performance and financial activity.
+        </p>
+
+    </section>
+
+
+    <!-- QUICK STATISTICS -->
+
+    <section class="stats">
+
+        <div class="stat-card">
+
+            <h3>
+                Customers
+            </h3>
+
+            <div class="number">
+                {{ customers_count }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>
+                Quotations
+            </h3>
+
+            <div class="number">
+                {{ quotations_count }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>
+                Invoices
+            </h3>
+
+            <div class="number">
+                {{ invoices_count }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>
+                Payments Received
+            </h3>
+
+            <div class="number">
+                {{ receipts_count }}
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FINANCIAL REPORTS -->
+
+    <section class="reports-grid">
+
+
+        <!-- QUOTATIONS -->
+
+        <div class="report-card">
+
+            <h2>
+                📋 Quotation Report
+            </h2>
+
+            <div class="report-row">
+
+                <span>
+                    Total Quotations
+                </span>
+
+                <strong>
+                    {{ quotations_count }}
+                </strong>
+
+            </div>
+
+
+            <div class="report-row">
+
+                <span>
+                    Quotation Value
+                </span>
+
+                <strong>
+                    ₦{{ quotation_total|floatformat:2 }}
+                </strong>
+
+            </div>
+
+
+            <div class="report-row">
+
+                <span>
+                    Outstanding
+                </span>
+
+                <strong class="balance">
+                    ₦{{ quotation_balance|floatformat:2 }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- INVOICES -->
+
+        <div class="report-card">
+
+            <h2>
+                🧾 Invoice Report
+            </h2>
+
+            <div class="report-row">
+
+                <span>
+                    Total Invoices
+                </span>
+
+                <strong>
+                    {{ invoices_count }}
+                </strong>
+
+            </div>
+
+
+            <div class="report-row">
+
+                <span>
+                    Invoice Value
+                </span>
+
+                <strong>
+                    ₦{{ invoice_total|floatformat:2 }}
+                </strong>
+
+            </div>
+
+
+            <div class="report-row">
+
+                <span>
+                    Outstanding
+                </span>
+
+                <strong class="balance">
+                    ₦{{ invoice_balance|floatformat:2 }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- PAYMENTS -->
+
+        <div class="report-card">
+
+            <h2>
+                💰 Payment Report
+            </h2>
+
+            <div class="report-row">
+
+                <span>
+                    Number of Receipts
+                </span>
+
+                <strong>
+                    {{ receipts_count }}
+                </strong>
+
+            </div>
+
+
+            <div class="report-row">
+
+                <span>
+                    Amount Received
+                </span>
+
+                <strong>
+                    ₦{{ amount_received|floatformat:2 }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- BUSINESS SUMMARY -->
+
+        <div class="report-card">
+
+            <h2>
+                📊 Business Summary
+            </h2>
+
+            <div class="report-row">
+
+                <span>
+                    Customers
+                </span>
+
+                <strong>
+                    {{ customers_count }}
+                </strong>
+
+            </div>
+
+
+            <div class="report-row">
+
+                <span>
+                    Quotations
+                </span>
+
+                <strong>
+                    {{ quotations_count }}
+                </strong>
+
+            </div>
+
+
+            <div class="report-row">
+
+                <span>
+                    Invoices
+                </span>
+
+                <strong>
+                    {{ invoices_count }}
+                </strong>
+
+            </div>
+
+
+            <div class="report-row">
+
+                <span>
+                    Payments
+                </span>
+
+                <strong>
+                    {{ receipts_count }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>

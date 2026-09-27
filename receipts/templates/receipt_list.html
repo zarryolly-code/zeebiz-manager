@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Receipts | ZeeBiz Manager</title>
+
+<style>
+    :root {
+        --primary: {{ business.primary_color|default:"#1F4E79" }};
+        --secondary: {{ business.secondary_color|default:"#F59E0B" }};
+        --light-primary: color-mix(in srgb, var(--primary) 8%, white);
+        --light-secondary: color-mix(in srgb, var(--secondary) 10%, white);
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f7fb;
+        color: #1f2937;
+    }
+
+    header {
+        background: var(--primary);
+        color: white;
+        padding: 20px 8%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 5px solid var(--secondary);
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .top h1 {
+        margin-bottom: 6px;
+        color: var(--primary);
+    }
+
+    .top p {
+        color: #6b7280;
+    }
+
+    .button {
+        background: var(--secondary);
+        color: white;
+        text-decoration: none;
+        padding: 12px 18px;
+        border-radius: 8px;
+        font-weight: bold;
+    }
+
+    .button:hover {
+        opacity: 0.9;
+    }
+
+    .card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        border-top: 4px solid var(--primary);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        padding: 16px;
+        text-align: left;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    th {
+        background: var(--light-primary);
+        color: var(--primary);
+        font-size: 14px;
+    }
+
+    td {
+        font-size: 14px;
+    }
+
+    .receipt-number {
+        color: var(--primary);
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .receipt-number:hover {
+        text-decoration: underline;
+    }
+
+    .quotation {
+        font-weight: bold;
+        color: var(--primary);
+    }
+
+    .paid {
+        font-weight: bold;
+        color: var(--primary);
+    }
+
+    .balance {
+        font-weight: bold;
+    }
+
+    .fully-paid {
+        color: #166534;
+    }
+
+    .outstanding {
+        color: var(--secondary);
+    }
+
+    .edit {
+        color: var(--primary);
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .edit:hover {
+        text-decoration: underline;
+    }
+
+    .empty {
+        padding: 50px 20px;
+        text-align: center;
+        color: #6b7280;
+    }
+
+    .empty h2 {
+        color: var(--primary);
+        margin-bottom: 10px;
+    }
+
+    .back {
+        display: inline-block;
+        margin-top: 20px;
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .back:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 800px) {
+
+        .top {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .card {
+            overflow-x: auto;
+        }
+
+        table {
+            min-width: 1050px;
+        }
+
+        header {
+            padding: 18px 5%;
+        }
+    }
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+    ZeeBiz Manager
+</div>
+
+<div>
+    {{ business.name }}
+</div>
+
+</header>
+
+<main class="container">
+
+<div class="top">
+
+    <div>
+
+        <h1>
+            🧾 Receipts
+        </h1>
+
+        <p>
+            Manage your customer payments and receipts.
+        </p>
+
+    </div>
+
+    <a
+        href="{% url 'receipt_create' %}"
+        class="button"
+    >
+        + New Receipt
+    </a>
+
+</div>
+
+
+<div class="card">
+
+    {% if receipt_data %}
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Receipt No.</th>
+
+                    <th>Customer</th>
+
+                    <th>Date</th>
+
+                    <th>Quotation</th>
+
+                    <th>Quotation Total</th>
+
+                    <th>Amount Paid</th>
+
+                    <th>Balance</th>
+
+                    <th>Payment Method</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for item in receipt_data %}
+
+                    <tr>
+
+                        <td>
+
+                            <a
+                                href="{% url 'receipt_detail' item.receipt.id %}"
+                                class="receipt-number"
+                            >
+                                {{ item.receipt.receipt_number }}
+                            </a>
+
+                        </td>
+
+
+                        <td>
+                            {{ item.receipt.customer.name }}
+                        </td>
+
+
+                        <td>
+                            {{ item.receipt.receipt_date }}
+                        </td>
+
+
+                        <td>
+
+                            {% if item.receipt.quotation %}
+
+                                <span class="quotation">
+                                    {{ item.receipt.quotation.quotation_number }}
+                                </span>
+
+                            {% else %}
+
+                                —
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            {% if item.receipt.quotation %}
+
+                                ₦{{ item.quotation_total|floatformat:2 }}
+
+                            {% else %}
+
+                                —
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="paid">
+                                ₦{{ item.receipt.amount_paid|floatformat:2 }}
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            {% if item.receipt.quotation %}
+
+                                {% if item.balance > 0 %}
+
+                                    <span class="balance outstanding">
+                                        ₦{{ item.balance|floatformat:2 }}
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="balance fully-paid">
+                                        ₦0.00
+                                    </span>
+
+                                {% endif %}
+
+                            {% else %}
+
+                                —
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+                            {{ item.receipt.get_payment_method_display }}
+                        </td>
+
+
+                        <td>
+
+                            <a
+                                href="{% url 'receipt_edit' item.receipt.id %}"
+                                class="edit"
+                            >
+                                ✏️ Edit
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    {% else %}
+
+        <div class="empty">
+
+            <h2>
+                No receipts yet 🧾
+            </h2>
+
+            <p>
+                You haven't recorded any customer payments yet.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+<a
+    href="{% url 'dashboard' %}"
+    class="back"
+>
+    ← Back to Dashboard
+</a>
+
+
+</main>
+
+</body>
+</html>

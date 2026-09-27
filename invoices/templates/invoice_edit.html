@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Invoice | ZeeBiz Manager</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 20px;
+            text-decoration: none;
+            color: #111827;
+            font-weight: bold;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        h1 {
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #111827;
+        }
+
+        input[readonly] {
+            background: #f3f4f6;
+            color: #374151;
+            font-weight: bold;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #111827;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 650px) {
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 22px;
+            }
+
+            header {
+                padding: 18px 20px;
+            }
+
+            .logo {
+                font-size: 21px;
+            }
+
+            header > div:last-child {
+                font-size: 13px;
+                text-align: right;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        ZeeBiz Manager
+    </div>
+
+    <div>
+        {{ business.name }}
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <a
+        href="{% url 'invoice_detail' invoice.id %}"
+        class="back"
+    >
+        ← Back to Invoice
+    </a>
+
+
+    <div class="card">
+
+        <h1>
+            Edit Invoice ✏️
+        </h1>
+
+        <p class="subtitle">
+            Update the invoice details below.
+        </p>
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <div class="form-group">
+
+                <label for="invoice_number">
+                    Invoice Number
+                </label>
+
+                <input
+                    type="text"
+                    id="invoice_number"
+                    name="invoice_number"
+                    value="{{ invoice.invoice_number }}"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="customer">
+                    Customer
+                </label>
+
+                <select
+                    id="customer"
+                    name="customer"
+                    required
+                >
+
+                    {% for customer in customers %}
+
+                        <option
+                            value="{{ customer.id }}"
+                            {% if customer.id == invoice.customer.id %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ customer.name }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="due_date">
+                        Due Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="due_date"
+                        name="due_date"
+                        value="{{ invoice.due_date|date:'Y-m-d' }}"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="status">
+                        Status
+                    </label>
+
+                    <select
+                        id="status"
+                        name="status"
+                    >
+
+                        <option
+                            value="draft"
+                            {% if invoice.status == "draft" %}
+                                selected
+                            {% endif %}
+                        >
+                            Draft
+                        </option>
+
+                        <option
+                            value="sent"
+                            {% if invoice.status == "sent" %}
+                                selected
+                            {% endif %}
+                        >
+                            Sent
+                        </option>
+
+                        <option
+                            value="paid"
+                            {% if invoice.status == "paid" %}
+                                selected
+                            {% endif %}
+                        >
+                            Paid
+                        </option>
+
+                        <option
+                            value="partially_paid"
+                            {% if invoice.status == "partially_paid" %}
+                                selected
+                            {% endif %}
+                        >
+                            Partially Paid
+                        </option>
+
+                        <option
+                            value="overdue"
+                            {% if invoice.status == "overdue" %}
+                                selected
+                            {% endif %}
+                        >
+                            Overdue
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="subtotal">
+                        Subtotal
+                    </label>
+
+                    <input
+                        type="number"
+                        id="subtotal"
+                        name="subtotal"
+                        step="0.01"
+                        min="0"
+                        value="{{ invoice.subtotal }}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="discount">
+                        Discount
+                    </label>
+
+                    <input
+                        type="number"
+                        id="discount"
+                        name="discount"
+                        step="0.01"
+                        min="0"
+                        value="{{ invoice.discount }}"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="amount_paid">
+                        Amount Paid
+                    </label>
+
+                    <input
+                        type="number"
+                        id="amount_paid"
+                        name="amount_paid"
+                        step="0.01"
+                        min="0"
+                        value="{{ invoice.amount_paid }}"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="current_total">
+                        Current Total
+                    </label>
+
+                    <input
+                        type="text"
+                        id="current_total"
+                        value="₦{{ invoice.total|floatformat:2 }}"
+                        readonly
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="notes">
+                    Notes
+                </label>
+
+                <textarea
+                    id="notes"
+                    name="notes"
+                >{{ invoice.notes }}</textarea>
+
+            </div>
+
+
+            <button type="submit">
+                Save Changes
+            </button>
+
+        </form>
+
+    </div>
+
+</main>
+
+
+<script>
+
+    const subtotalInput = document.getElementById("subtotal");
+    const discountInput = document.getElementById("discount");
+    const totalInput = document.getElementById("current_total");
+
+
+    function updateTotal() {
+
+        const subtotal = parseFloat(subtotalInput.value) || 0;
+
+        const discount = parseFloat(discountInput.value) || 0;
+
+        let total = subtotal - discount;
+
+        if (total < 0) {
+            total = 0;
+        }
+
+        totalInput.value =
+            "₦" + total.toFixed(2);
+
+    }
+
+
+    subtotalInput.addEventListener(
+        "input",
+        updateTotal
+    );
+
+
+    discountInput.addEventListener(
+        "input",
+        updateTotal
+    );
+
+
+    updateTotal();
+
+</script>
+
+
+</body>
+
+</html>

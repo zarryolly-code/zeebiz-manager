@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>New Receipt | ZeeBiz Manager</title>
+
+<style>
+    :root {
+        --primary: {{ business.primary_color|default:"#1F4E79" }};
+        --secondary: {{ business.secondary_color|default:"#F59E0B" }};
+        --light-primary: color-mix(in srgb, var(--primary) 8%, white);
+        --light-secondary: color-mix(in srgb, var(--secondary) 10%, white);
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f7fb;
+        color: #1f2937;
+    }
+
+    header {
+        background: var(--primary);
+        color: white;
+        padding: 20px 8%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 5px solid var(--secondary);
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .card {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+        border-top: 4px solid var(--primary);
+    }
+
+    h1 {
+        margin-bottom: 8px;
+        color: var(--primary);
+    }
+
+    .subtitle {
+        color: #6b7280;
+        margin-bottom: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: var(--primary);
+    }
+
+    input,
+    select,
+    textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 15px;
+        font-family: inherit;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px var(--light-primary);
+    }
+
+    textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+
+    .button {
+        background: var(--secondary);
+        color: white;
+        border: none;
+        padding: 13px 20px;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 15px;
+    }
+
+    .button:hover {
+        opacity: 0.9;
+    }
+
+    .back {
+        display: inline-block;
+        margin-top: 20px;
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .back:hover {
+        text-decoration: underline;
+    }
+
+    .info {
+        background: var(--light-primary);
+        border-left: 4px solid var(--secondary);
+        padding: 14px;
+        margin-bottom: 25px;
+        color: #4b5563;
+        line-height: 1.5;
+    }
+</style>
+
+</head>
+
+<body>
+
+<header>
+    <div class="logo">ZeeBiz Manager</div>
+    <div>{{ business.name }}</div>
+</header>
+
+<main class="container">
+
+<div class="card">
+
+    <h1>🧾 New Receipt</h1>
+
+    <p class="subtitle">
+        Record a payment received from your customer.
+    </p>
+
+    <div class="info">
+        Select the quotation this payment belongs to.
+        This will allow ZeeBiz Manager to keep the payment connected
+        to the customer's quotation.
+    </div>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <div class="form-group">
+
+            <label for="customer">
+                Customer
+            </label>
+
+            <select
+                name="customer"
+                id="customer"
+                required
+            >
+
+                <option value="">
+                    -- Select Customer --
+                </option>
+
+                {% for customer in customers %}
+
+                    <option value="{{ customer.id }}">
+                        {{ customer.name }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="quotation">
+                Quotation
+            </label>
+
+            <select
+                name="quotation"
+                id="quotation"
+            >
+
+                <option value="">
+                    -- Select Quotation --
+                </option>
+
+                {% for quotation in quotations %}
+
+                    <option value="{{ quotation.id }}">
+                        {{ quotation.quotation_number }}
+                        — {{ quotation.customer.name }}
+                        — ₦{{ quotation.total }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="amount_paid">
+                Amount Paid (₦)
+            </label>
+
+            <input
+                type="number"
+                name="amount_paid"
+                id="amount_paid"
+                step="0.01"
+                min="0"
+                placeholder="Enter amount received"
+                required
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="payment_method">
+                Payment Method
+            </label>
+
+            <select
+                name="payment_method"
+                id="payment_method"
+                required
+            >
+
+                <option value="transfer">
+                    Bank Transfer
+                </option>
+
+                <option value="cash">
+                    Cash
+                </option>
+
+                <option value="pos">
+                    POS
+                </option>
+
+                <option value="card">
+                    Card
+                </option>
+
+                <option value="other">
+                    Other
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="description">
+                Description / Purpose
+            </label>
+
+            <textarea
+                name="description"
+                id="description"
+                placeholder="e.g. Upfront payment for renovation cleaning and fumigation"
+            ></textarea>
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="notes">
+                Notes
+            </label>
+
+            <textarea
+                name="notes"
+                id="notes"
+                placeholder="Additional payment notes"
+            ></textarea>
+
+        </div>
+
+        <button type="submit" class="button">
+            💾 Save Receipt
+        </button>
+
+    </form>
+
+    <a href="{% url 'receipt_list' %}" class="back">
+        ← Back to Receipts
+    </a>
+
+</div>
+
+</main>
+
+</body>
+</html>

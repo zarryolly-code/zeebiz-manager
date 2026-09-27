@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your ZeeBiz Plan</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .header {
+            text-align: center;
+            padding: 45px 20px 25px;
+        }
+
+        .header h1 {
+            margin-bottom: 10px;
+            color: #4f46e5;
+        }
+
+        .header p {
+            color: #64748b;
+        }
+
+        .plans {
+            max-width: 1200px;
+            margin: 20px auto 50px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .plan-card {
+            background: white;
+            border-radius: 18px;
+            padding: 28px 22px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            position: relative;
+        }
+
+        .plan-card h2 {
+            color: #4f46e5;
+        }
+
+        .price {
+            font-size: 30px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .plan-card ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            line-height: 1.9;
+        }
+
+        .choose-btn {
+            display: block;
+            margin-top: 25px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #4f46e5;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .popular {
+            border: 3px solid #f59e0b;
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -13px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #f59e0b;
+            color: white;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .back {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .back a {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @media (max-width: 900px) {
+            .plans {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .plans {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Choose Your ZeeBiz Plan</h1>
+    <p>Choose the plan that fits your business.</p>
+</div>
+
+<div class="plans">
+
+    <!-- FREE -->
+    <div class="plan-card">
+        <h2>🆓 Free</h2>
+        <div class="price">₦0</div>
+
+        <ul>
+            <li>✓ 2 Customers</li>
+            <li>✓ 2 Services</li>
+            <li>✓ 2 Quotations/month</li>
+            <li>✓ 2 Invoices/month</li>
+            <li>✓ 2 Receipts/month</li>
+            <li>✓ Basic Payment Tracking</li>
+            <li>✓ Basic Reports</li>
+        </ul>
+
+        <a href="#" class="choose-btn">Current Plan</a>
+    </div>
+
+
+    <!-- STARTER -->
+    <div class="plan-card">
+        <h2>⭐ Starter</h2>
+        <div class="price">₦25,000</div>
+        <p>per month</p>
+
+        <ul>
+            <li>✓ 50 Customers</li>
+            <li>✓ 50 Services</li>
+            <li>✓ 30 Quotations/month</li>
+            <li>✓ 30 Invoices/month</li>
+            <li>✓ 30 Receipts/month</li>
+            <li>✓ Payment Tracking</li>
+            <li>✓ Standard Reports</li>
+            <li>✓ Data Export</li>
+        </ul>
+
+        <a href="{% url 'choose_plan' 'Starter' %}" class="choose-btn">Choose Starter</a>
+    </div>
+
+
+    <!-- BUSINESS -->
+    <div class="plan-card popular">
+        <div class="popular-badge">MOST POPULAR</div>
+
+        <h2>🚀 Business</h2>
+        <div class="price">₦30,000</div>
+        <p>per month</p>
+
+        <ul>
+            <li>✓ 500 Customers</li>
+            <li>✓ 100 Services</li>
+            <li>✓ 200 Quotations/month</li>
+            <li>✓ 200 Invoices/month</li>
+            <li>✓ 200 Receipts/month</li>
+            <li>✓ Advanced Reports</li>
+            <li>✓ 5 Staff Accounts</li>
+            <li>✓ Custom Branding</li>
+            <li>✓ Data Export</li>
+        </ul>
+
+        <a href="{% url 'choose_plan' 'Business' %}" class="choose-btn">Choose Business</a>
+    </div>
+
+
+    <!-- PREMIUM -->
+    <div class="plan-card">
+        <h2>👑 Premium</h2>
+        <div class="price">₦40,000</div>
+        <p>per month</p>
+
+        <ul>
+            <li>✓ Unlimited Customers</li>
+            <li>✓ Unlimited Services</li>
+            <li>✓ Unlimited Quotations</li>
+            <li>✓ Unlimited Invoices</li>
+            <li>✓ Unlimited Receipts</li>
+            <li>✓ Advanced Analytics</li>
+            <li>✓ 15 Staff Accounts</li>
+            <li>✓ Custom Branding</li>
+            <li>✓ Priority Support</li>
+        </ul>
+
+        <a href="{% url 'choose_plan' 'Premium' %}" class="choose-btn">Choose Premium</a>
+    </div>
+
+</div>
+
+<div class="back">
+    <a href="{% url 'dashboard' %}">← Back to Dashboard</a>
+</div>
+
+</body>
+</html>
