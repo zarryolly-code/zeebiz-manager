@@ -496,6 +496,30 @@
 
     }
 
+    .signatures {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    margin-top: 40px;
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+.signature-box {
+    text-align: center;
+    padding-top: 50px;
+}
+
+.signature-line {
+    border-top: 2px solid #374151;
+    margin-bottom: 8px;
+}
+
+.signature-label {
+    font-weight: bold;
+    color: var(--primary);
+    margin: 0;
+}
 
     /* =========================
        FOOTER
@@ -726,6 +750,11 @@
 
         }
 
+        .signatures {
+            grid-template-columns: 1fr;
+            gap: 35px;
+        }
+
     }
 
 
@@ -945,13 +974,11 @@
     }
 
 </style>
-```
 
 </head>
 
 <body>
 
-```
 <div class="page">
 
 
@@ -1367,6 +1394,28 @@
         </div>
 
     {% endif %}
+
+    <!-- SIGNATURES -->
+
+<div class="signatures">
+
+    <div class="signature-box">
+
+        <div class="signature-line"></div>
+
+        <p class="signature-label">Authorized Signature</p>
+
+    </div>
+
+    <div class="signature-box">
+
+        <div class="signature-line"></div>
+
+        <p class="signature-label">Customer Signature</p>
+
+    </div>
+
+</div>
 
 
     <!-- FOOTER -->
