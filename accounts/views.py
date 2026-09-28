@@ -10,6 +10,9 @@ from quotations.models import Quotation
 from subscriptions.models import Subscription
 from usage_limits.views import can_create_document_permanent
 
+import os
+import resend
+
 def business_login(request):
     if request.method == "POST":
         username = request.POST.get("username")
@@ -238,6 +241,15 @@ def business_register(request):
             business=business,
             plan="Free",
         )
+
+        resend.api_key = os.getenv("RESEND_API_KEY")
+
+        resend.Emails.send({
+            "from": "ZeeBiz Manager <onboarding@resend.dev>",
+            "to": [email],
+            "subject": "Welcome to ZeeBiz Manager",
+            "html": f"<h2>Welcome to ZeeBiz Manager, {owner_name}!</h2><p>Your business account for <strong>{business_name}</strong> has been created successfully.</p><p>You can now log in and start managing your business.</p>",
+        })
 
         login(request, user)
 
