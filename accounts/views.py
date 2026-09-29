@@ -245,14 +245,12 @@ def business_register(request):
         resend.api_key = os.getenv("RESEND_API_KEY")
 
     try:
-
         resend.Emails.send({
             "from": "ZeeBiz Manager <onboarding@resend.dev>",
             "to": [email],
             "subject": "Welcome to ZeeBiz Manager",
             "html": f"<h2>Welcome to ZeeBiz Manager, {owner_name}!</h2><p>Your business account for <strong>{business_name}</strong> has been created successfully.</p><p>You can now log in and start managing your business.</p>",
         })
-
     except Exception:
         pass
 
