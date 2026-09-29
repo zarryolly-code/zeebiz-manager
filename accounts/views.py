@@ -156,6 +156,8 @@ def business_profile(request):
         owner=request.user
     )
 
+    if business.subscription.plan in ["Free", "Starter"]: return redirect("/subscription/plans/")
+
     if request.method == "POST":
 
         business.name = request.POST.get("name")
