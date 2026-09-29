@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
-from django.http import JsonResponse
+from django.http import JsonResponse, FileResponse
 
 from customers import views
 
@@ -32,12 +32,44 @@ def manifest(request):
     })
 
 
+def pwa_icon_192(request):
+    return FileResponse(
+        open(
+            settings.BASE_DIR / "static" / "icons" / "icon-192.png",
+            "rb"
+        ),
+        content_type="image/png"
+    )
+
+
+def pwa_icon_512(request):
+    return FileResponse(
+        open(
+            settings.BASE_DIR / "static" / "icons" / "icon-512.png",
+            "rb"
+        ),
+        content_type="image/png"
+    )
+
+
 urlpatterns = [
     path("admin/", admin.site.urls),
 
     path("", views.home, name="home"),
 
     path("manifest.json", manifest, name="manifest"),
+
+    path(
+        "static/icons/icon-192.png",
+        pwa_icon_192,
+        name="pwa_icon_192"
+    ),
+
+    path(
+        "static/icons/icon-512.png",
+        pwa_icon_512,
+        name="pwa_icon_512"
+    ),
 
     path("accounts/", include("accounts.urls")),
 
