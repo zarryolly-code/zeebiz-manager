@@ -15,6 +15,7 @@
             font-family: Arial, sans-serif;
             background: #f4f7fb;
             color: #1f2937;
+            overflow-x: hidden;
         }
 
         .header {
@@ -29,6 +30,7 @@
 
         .header p {
             color: #64748b;
+            line-height: 1.5;
         }
 
         .plans {
@@ -47,6 +49,7 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
             text-align: center;
             position: relative;
+            min-width: 0;
         }
 
         .plan-card h2 {
@@ -57,6 +60,11 @@
             font-size: 30px;
             font-weight: bold;
             margin: 20px 0;
+            overflow-wrap: anywhere;
+        }
+
+        .plan-card > p {
+            color: #64748b;
         }
 
         .plan-card ul {
@@ -64,6 +72,10 @@
             padding: 0;
             text-align: left;
             line-height: 1.9;
+        }
+
+        .plan-card li {
+            overflow-wrap: anywhere;
         }
 
         .choose-btn {
@@ -75,6 +87,7 @@
             color: white;
             text-decoration: none;
             font-weight: bold;
+            text-align: center;
         }
 
         .popular {
@@ -92,17 +105,31 @@
             border-radius: 20px;
             font-size: 13px;
             font-weight: bold;
+            white-space: nowrap;
         }
 
         .back {
             text-align: center;
             margin-bottom: 40px;
+            padding: 0 20px;
         }
 
         .back a {
             color: #4f46e5;
             text-decoration: none;
             font-weight: bold;
+        }
+
+        .site-footer {
+            text-align: center;
+            padding: 30px 20px;
+            background: #1f2937;
+            color: white;
+            font-size: 14px;
+        }
+
+        .site-footer p {
+            margin: 0;
         }
 
         @media (max-width: 900px) {
@@ -112,8 +139,85 @@
         }
 
         @media (max-width: 600px) {
+            .header {
+                padding: 35px 15px 20px;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
             .plans {
                 grid-template-columns: 1fr;
+                margin: 15px auto 35px;
+                padding: 15px;
+                gap: 18px;
+            }
+
+            .plan-card {
+                padding: 25px 18px;
+                border-radius: 14px;
+            }
+
+            .plan-card h2 {
+                font-size: 23px;
+            }
+
+            .price {
+                font-size: 27px;
+            }
+
+            .choose-btn {
+                width: 100%;
+                padding: 13px;
+            }
+
+            .popular-badge {
+                font-size: 12px;
+                padding: 5px 12px;
+            }
+
+            .back {
+                margin-bottom: 35px;
+            }
+
+            .back a {
+                display: block;
+                padding: 12px;
+                background: white;
+                border-radius: 8px;
+            }
+
+            .site-footer {
+                padding: 25px 15px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .header {
+                padding: 30px 10px 15px;
+            }
+
+            .header h1 {
+                font-size: 25px;
+            }
+
+            .plans {
+                padding: 10px;
+            }
+
+            .plan-card {
+                padding: 22px 15px;
+            }
+
+            .price {
+                font-size: 24px;
+            }
+
+            .popular-badge {
+                font-size: 11px;
+                padding: 5px 10px;
             }
         }
     </style>
@@ -218,6 +322,10 @@
 <div class="back">
     <a href="{% url 'dashboard' %}">← Back to Dashboard</a>
 </div>
+
+<footer class="site-footer">
+    <p>© 2026 ZeeBiz Manager. All rights reserved.</p>
+</footer>
 
 </body>
 </html>

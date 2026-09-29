@@ -21,6 +21,7 @@
             font-family: Arial, sans-serif;
             background: #f5f7fb;
             color: #1f2937;
+            overflow-x: hidden;
         }
 
         header {
@@ -30,6 +31,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 20px;
         }
 
         .logo {
@@ -37,10 +39,16 @@
             font-weight: bold;
         }
 
+        header > div:last-child {
+            overflow-wrap: anywhere;
+            text-align: right;
+        }
+
         .container {
             max-width: 800px;
             margin: 40px auto;
             padding: 0 20px;
+            min-height: 65vh;
         }
 
         .back {
@@ -85,10 +93,17 @@
         select,
         textarea {
             width: 100%;
+            max-width: 100%;
             padding: 12px;
             border: 1px solid #d1d5db;
             border-radius: 8px;
             font-size: 15px;
+            font-family: inherit;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
         }
 
         input:focus,
@@ -121,24 +136,30 @@
             font-weight: bold;
             cursor: pointer;
             margin-top: 10px;
+            min-height: 48px;
         }
 
         button:hover {
             opacity: 0.9;
         }
 
+        .site-footer {
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+            background: #1f2937;
+            color: white;
+            font-size: 14px;
+        }
+
         @media (max-width: 650px) {
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .card {
-                padding: 22px;
-            }
 
             header {
                 padding: 18px 20px;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+                text-align: center;
             }
 
             .logo {
@@ -146,8 +167,86 @@
             }
 
             header > div:last-child {
+                font-size: 14px;
+                text-align: center;
+                overflow-wrap: anywhere;
+            }
+
+            .container {
+                width: 100%;
+                margin: 30px auto;
+                padding: 0 15px;
+            }
+
+            .back {
+                width: 100%;
+                text-align: center;
+                padding: 12px 15px;
+                background: white;
+                border-radius: 8px;
+                margin-bottom: 15px;
+            }
+
+            .card {
+                padding: 22px 18px;
+                border-radius: 10px;
+            }
+
+            h1 {
+                font-size: 28px;
+                line-height: 1.2;
+            }
+
+            .subtitle {
+                margin-bottom: 25px;
+                line-height: 1.5;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            input,
+            select,
+            textarea {
+                font-size: 16px;
+            }
+
+            button {
+                min-height: 50px;
+                font-size: 16px;
+            }
+
+            .site-footer {
+                margin-top: 40px;
+                padding: 25px 15px;
                 font-size: 13px;
-                text-align: right;
+            }
+        }
+
+        @media (max-width: 380px) {
+
+            .container {
+                padding: 0 10px;
+            }
+
+            .card {
+                padding: 20px 15px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            input,
+            select,
+            textarea {
+                padding: 11px;
             }
         }
 
@@ -428,24 +527,43 @@
 </main>
 
 
+<footer class="site-footer">
+
+    <p>
+        © 2026 ZeeBiz Manager. All rights reserved.
+    </p>
+
+</footer>
+
+
 <script>
 
-    const subtotalInput = document.getElementById("subtotal");
-    const discountInput = document.getElementById("discount");
-    const totalInput = document.getElementById("current_total");
+    const subtotalInput =
+        document.getElementById("subtotal");
+
+    const discountInput =
+        document.getElementById("discount");
+
+    const totalInput =
+        document.getElementById("current_total");
 
 
     function updateTotal() {
 
-        const subtotal = parseFloat(subtotalInput.value) || 0;
+        const subtotal =
+            parseFloat(subtotalInput.value) || 0;
 
-        const discount = parseFloat(discountInput.value) || 0;
+        const discount =
+            parseFloat(discountInput.value) || 0;
 
-        let total = subtotal - discount;
+        let total =
+            subtotal - discount;
+
 
         if (total < 0) {
             total = 0;
         }
+
 
         totalInput.value =
             "₦" + total.toFixed(2);

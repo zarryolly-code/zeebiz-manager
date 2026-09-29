@@ -17,6 +17,7 @@
             font-family: Arial, sans-serif;
             background: #f5f7fb;
             color: #1f2937;
+            overflow-x: hidden;
         }
 
         header {
@@ -34,6 +35,7 @@
             max-width: 650px;
             margin: 45px auto;
             padding: 0 20px;
+            min-height: 60vh;
         }
 
         .form-card {
@@ -50,6 +52,7 @@
         .subtitle {
             color: #6b7280;
             margin-bottom: 30px;
+            line-height: 1.5;
         }
 
         .form-group {
@@ -71,6 +74,7 @@
             border-radius: 8px;
             font-size: 16px;
             font-family: Arial, sans-serif;
+            max-width: 100%;
         }
 
         textarea {
@@ -99,6 +103,7 @@
             font-size: 15px;
             text-decoration: none;
             cursor: pointer;
+            text-align: center;
         }
 
         button {
@@ -110,6 +115,92 @@
         .cancel {
             background: #f3f4f6;
             color: #111827;
+        }
+
+        .site-footer {
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+            background: #1f2937;
+            color: white;
+            font-size: 14px;
+        }
+
+        @media (max-width: 650px) {
+            header {
+                padding: 18px 5%;
+                text-align: center;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .container {
+                width: 100%;
+                margin: 30px auto;
+                padding: 0 15px;
+            }
+
+            .form-card {
+                padding: 25px 18px;
+                border-radius: 10px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .subtitle {
+                margin-bottom: 25px;
+            }
+
+            .form-group {
+                margin-bottom: 18px;
+            }
+
+            input,
+            select,
+            textarea {
+                font-size: 16px;
+                padding: 12px;
+            }
+
+            .buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            button,
+            .cancel {
+                width: 100%;
+                display: block;
+            }
+
+            .site-footer {
+                margin-top: 40px;
+                padding: 25px 15px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .container {
+                padding: 0 10px;
+                margin-top: 25px;
+            }
+
+            .form-card {
+                padding: 22px 15px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
         }
     </style>
 </head>
@@ -241,6 +332,10 @@
         </div>
 
     </main>
+
+    <footer class="site-footer">
+        <p>© 2026 ZeeBiz Manager. All rights reserved.</p>
+    </footer>
 
 </body>
 </html>

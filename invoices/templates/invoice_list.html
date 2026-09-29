@@ -17,6 +17,7 @@
             font-family: Arial, Helvetica, sans-serif;
             background: #eef2f7;
             color: #111827;
+            overflow-x: hidden;
         }
 
         /* =========================
@@ -80,6 +81,7 @@
             max-width: 1250px;
             margin: 40px auto;
             padding: 0 25px;
+            min-height: 65vh;
         }
 
         /* =========================
@@ -148,6 +150,8 @@
             font-weight: 800;
 
             transition: 0.2s;
+
+            white-space: nowrap;
         }
 
         .add-button:hover {
@@ -180,6 +184,8 @@
                 0 4px 18px rgba(0, 0, 0, 0.06);
 
             border-top: 4px solid #625df5;
+
+            min-width: 0;
         }
 
         .summary-card:nth-child(2) {
@@ -214,6 +220,8 @@
             font-weight: 900;
 
             color: #111827;
+
+            overflow-wrap: anywhere;
         }
 
         /* =========================
@@ -229,11 +237,14 @@
                 0 4px 20px rgba(0, 0, 0, 0.06);
 
             overflow: hidden;
+
+            width: 100%;
         }
 
         .table-wrapper {
             width: 100%;
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         table {
@@ -326,6 +337,8 @@
             font-weight: 800;
 
             text-transform: capitalize;
+
+            white-space: nowrap;
         }
 
         .status-draft {
@@ -373,6 +386,8 @@
             font-weight: 800;
 
             font-size: 12px;
+
+            white-space: nowrap;
         }
 
         .view-button:hover {
@@ -402,6 +417,24 @@
         }
 
         /* =========================
+           FOOTER
+        ========================= */
+
+        .site-footer {
+            text-align: center;
+
+            padding: 30px 20px;
+
+            margin-top: 50px;
+
+            background: #1f2937;
+
+            color: white;
+
+            font-size: 14px;
+        }
+
+        /* =========================
            RESPONSIVE
         ========================= */
 
@@ -415,38 +448,191 @@
             .top-bar {
                 align-items: flex-start;
             }
+
+            .container {
+                padding: 0 20px;
+            }
         }
 
         @media (max-width: 600px) {
 
             header {
-                padding: 20px;
+                padding: 20px 15px;
+
+                flex-direction: column;
+
+                align-items: center;
+
+                text-align: center;
+
+                gap: 6px;
+            }
+
+            .logo {
+                font-size: 23px;
             }
 
             .business-name {
-                display: none;
+                display: block;
+
+                font-size: 14px;
+
+                max-width: 100%;
+
+                overflow-wrap: anywhere;
             }
 
             .container {
+                width: 100%;
+
                 margin-top: 25px;
-                padding: 0 15px;
+
+                margin-bottom: 35px;
+
+                padding: 0 12px;
+            }
+
+            .back-button {
+                width: 100%;
+
+                text-align: center;
+
+                margin-bottom: 20px;
             }
 
             .top-bar {
                 flex-direction: column;
+
+                align-items: stretch;
+
+                gap: 18px;
+
+                margin-bottom: 22px;
             }
 
             .top-bar h1 {
                 font-size: 27px;
+
+                line-height: 1.2;
+            }
+
+            .subtitle {
+                font-size: 14px;
+
+                line-height: 1.5;
             }
 
             .add-button {
                 width: 100%;
+
                 text-align: center;
+
+                padding: 14px 18px;
             }
 
             .summary-cards {
                 grid-template-columns: 1fr;
+
+                gap: 14px;
+
+                margin-bottom: 22px;
+            }
+
+            .summary-card {
+                padding: 18px;
+            }
+
+            .summary-value {
+                font-size: 22px;
+            }
+
+            .card {
+                width: 100%;
+
+                border-radius: 12px;
+            }
+
+            .table-wrapper {
+                width: 100%;
+
+                overflow-x: auto;
+
+                -webkit-overflow-scrolling: touch;
+            }
+
+            table {
+                min-width: 950px;
+            }
+
+            th,
+            td {
+                padding: 14px 13px;
+
+                white-space: nowrap;
+            }
+
+            .invoice-number {
+                white-space: nowrap;
+            }
+
+            .status {
+                white-space: nowrap;
+            }
+
+            .view-button {
+                white-space: nowrap;
+
+                padding: 9px 14px;
+            }
+
+            .empty {
+                padding: 55px 18px;
+            }
+
+            .empty h2 {
+                font-size: 22px;
+            }
+
+            .empty p {
+                font-size: 14px;
+
+                line-height: 1.5;
+            }
+
+            .site-footer {
+                margin-top: 40px;
+
+                padding: 25px 15px;
+
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 380px) {
+
+            .container {
+                padding: 0 10px;
+            }
+
+            .logo {
+                font-size: 21px;
+            }
+
+            .top-bar h1 {
+                font-size: 25px;
+            }
+
+            .summary-card {
+                padding: 16px;
+            }
+
+            .summary-value {
+                font-size: 20px;
+            }
+
+            .back-button,
+            .add-button {
+                font-size: 14px;
             }
         }
     </style>
@@ -736,6 +922,12 @@
     </div>
 
 </main>
+
+
+<footer class="site-footer">
+    <p>© 2026 ZeeBiz Manager. All rights reserved.</p>
+</footer>
+
 
 </body>
 </html>

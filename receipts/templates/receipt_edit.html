@@ -1,196 +1,352 @@
 <!DOCTYPE html>
-
 <html lang="en">
+
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Edit Receipt | ZeeBiz Manager</title>
+    <title>Edit Receipt | ZeeBiz Manager</title>
 
-<style>
+    <style>
 
-    :root {
-        --primary: {{ business.primary_color|default:"#1F4E79" }};
-        --secondary: {{ business.secondary_color|default:"#F59E0B" }};
-        --light-primary: color-mix(in srgb, var(--primary) 8%, white);
-        --light-secondary: color-mix(in srgb, var(--secondary) 10%, white);
-    }
-
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
-
-    body {
-        font-family: Arial, sans-serif;
-        background: #f5f7fb;
-        color: #1f2937;
-    }
-
-    header {
-        background: var(--primary);
-        color: white;
-        padding: 20px 8%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 5px solid var(--secondary);
-    }
-
-    .logo {
-        font-size: 24px;
-        font-weight: bold;
-    }
-
-    .container {
-        max-width: 800px;
-        margin: 40px auto;
-        padding: 0 20px;
-    }
-
-    .card {
-        background: white;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
-        border-top: 4px solid var(--primary);
-    }
-
-    h1 {
-        margin-bottom: 8px;
-        color: var(--primary);
-    }
-
-    .subtitle {
-        color: #6b7280;
-        margin-bottom: 25px;
-    }
-
-    .receipt-number {
-        background: var(--light-primary);
-        border-left: 4px solid var(--secondary);
-        padding: 12px;
-        border-radius: 8px;
-        margin-bottom: 25px;
-        font-weight: bold;
-        color: var(--primary);
-    }
-
-    .summary {
-        background: var(--light-primary);
-        border-radius: 10px;
-        padding: 20px;
-        margin-bottom: 30px;
-        border-left: 4px solid var(--secondary);
-    }
-
-    .summary h2 {
-        font-size: 18px;
-        margin-bottom: 15px;
-        color: var(--primary);
-    }
-
-    .summary-row {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px 0;
-        border-bottom: 1px solid #e5e7eb;
-    }
-
-    .summary-row:last-child {
-        border-bottom: none;
-    }
-
-    .summary-label {
-        color: #6b7280;
-    }
-
-    .summary-value {
-        font-weight: bold;
-    }
-
-    .balance {
-        font-size: 18px;
-        font-weight: bold;
-        margin-top: 5px;
-        color: var(--secondary);
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 8px;
-        color: var(--primary);
-    }
-
-    input,
-    select,
-    textarea {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #d1d5db;
-        border-radius: 8px;
-        font-size: 15px;
-        font-family: inherit;
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-        outline: none;
-        border-color: var(--primary);
-        box-shadow: 0 0 0 3px var(--light-primary);
-    }
-
-    textarea {
-        min-height: 100px;
-        resize: vertical;
-    }
-
-    .button {
-        background: var(--secondary);
-        color: white;
-        border: none;
-        padding: 13px 20px;
-        border-radius: 8px;
-        font-weight: bold;
-        cursor: pointer;
-        font-size: 15px;
-    }
-
-    .button:hover {
-        opacity: 0.9;
-    }
-
-    .back {
-        display: inline-block;
-        margin-top: 20px;
-        color: var(--primary);
-        text-decoration: none;
-        font-weight: bold;
-    }
-
-    .back:hover {
-        text-decoration: underline;
-    }
-
-    @media (max-width: 600px) {
-
-        .summary-row {
-            flex-direction: column;
-            gap: 5px;
+        :root {
+            --primary: {{ business.primary_color|default:"#1F4E79" }};
+            --secondary: {{ business.secondary_color|default:"#F59E0B" }};
+            --light-primary: color-mix(in srgb, var(--primary) 8%, white);
+            --light-secondary: color-mix(in srgb, var(--secondary) 10%, white);
         }
 
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-</style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            border-bottom: 5px solid var(--secondary);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        header > div:last-child {
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            text-align: right;
+        }
+
+        .container {
+            max-width: 800px;
+            min-height: 65vh;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+            border-top: 4px solid var(--primary);
+        }
+
+        h1 {
+            margin-bottom: 8px;
+            color: var(--primary);
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .receipt-number {
+            background: var(--light-primary);
+            border-left: 4px solid var(--secondary);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-weight: bold;
+            color: var(--primary);
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+
+        .summary {
+            background: var(--light-primary);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .summary h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 10px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+        .summary-label,
+        .summary-value {
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+
+        .summary-label {
+            color: #6b7280;
+        }
+
+        .summary-value {
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .balance {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 5px;
+            color: var(--secondary);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            max-width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--light-primary);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        .button {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 13px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 15px;
+            min-height: 48px;
+        }
+
+        .button:hover {
+            opacity: 0.9;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+        .site-footer {
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+            background: #1f2937;
+            color: white;
+            font-size: 14px;
+        }
+
+        .site-footer p {
+            color: white;
+            margin: 0;
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 18px 20px;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .logo {
+                font-size: 21px;
+            }
+
+            header > div:last-child {
+                font-size: 14px;
+                text-align: center;
+            }
+
+            .container {
+                width: 100%;
+                margin: 30px auto;
+                padding: 0 15px;
+            }
+
+            .card {
+                padding: 22px 18px;
+                border-radius: 10px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .subtitle {
+                margin-bottom: 22px;
+            }
+
+            .receipt-number {
+                padding: 11px;
+                margin-bottom: 22px;
+                font-size: 14px;
+            }
+
+            .summary {
+                padding: 17px;
+                margin-bottom: 25px;
+            }
+
+            .summary h2 {
+                font-size: 17px;
+            }
+
+            .summary-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+            .summary-value {
+                text-align: left;
+            }
+
+            input,
+            select,
+            textarea {
+                font-size: 16px;
+            }
+
+            textarea {
+                min-height: 110px;
+            }
+
+            .button {
+                width: 100%;
+                min-height: 50px;
+                font-size: 16px;
+            }
+
+            .back {
+                width: 100%;
+                text-align: center;
+                padding: 12px 15px;
+                background: #f3f4f6;
+                border-radius: 8px;
+            }
+
+            .site-footer {
+                margin-top: 40px;
+                padding: 25px 15px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 380px) {
+
+            .container {
+                padding: 0 10px;
+            }
+
+            .card {
+                padding: 20px 15px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .summary {
+                padding: 15px;
+            }
+
+            input,
+            select,
+            textarea {
+                padding: 11px;
+            }
+
+            .receipt-number {
+                font-size: 13px;
+            }
+        }
+
+    </style>
 
 </head>
 
@@ -198,287 +354,303 @@
 
 <header>
 
-<div class="logo">
-    ZeeBiz Manager
-</div>
+    <div class="logo">
+        ZeeBiz Manager
+    </div>
 
-<div>
-    {{ business.name }}
-</div>
+    <div>
+        {{ business.name }}
+    </div>
 
 </header>
 
+
 <main class="container">
 
-<div class="card">
+    <div class="card">
 
-    <h1>
-        ✏️ Edit Receipt
-    </h1>
+        <h1>
+            ✏️ Edit Receipt
+        </h1>
 
-    <p class="subtitle">
-        Update the payment information for this receipt.
-    </p>
-
-    <div class="receipt-number">
-        Receipt No: {{ receipt.receipt_number }}
-    </div>
+        <p class="subtitle">
+            Update the payment information for this receipt.
+        </p>
 
 
-    {% if receipt.quotation %}
-
-        <div class="summary">
-
-            <h2>
-                💰 Payment Summary
-            </h2>
-
-            <div class="summary-row">
-
-                <span class="summary-label">
-                    Quotation Total
-                </span>
-
-                <span class="summary-value">
-                    ₦{{ quotation_total }}
-                </span>
-
-            </div>
-
-            <div class="summary-row">
-
-                <span class="summary-label">
-                    Amount Paid
-                </span>
-
-                <span class="summary-value">
-                    ₦{{ receipt.amount_paid }}
-                </span>
-
-            </div>
-
-            <div class="summary-row">
-
-                <span class="summary-label">
-                    Balance
-                </span>
-
-                <span class="summary-value balance">
-                    ₦{{ balance }}
-                </span>
-
-            </div>
-
+        <div class="receipt-number">
+            Receipt No: {{ receipt.receipt_number }}
         </div>
 
-    {% endif %}
+
+        {% if receipt.quotation %}
+
+            <div class="summary">
+
+                <h2>
+                    💰 Payment Summary
+                </h2>
 
 
-    <form method="POST">
+                <div class="summary-row">
 
-        {% csrf_token %}
+                    <span class="summary-label">
+                        Quotation Total
+                    </span>
+
+                    <span class="summary-value">
+                        ₦{{ quotation_total }}
+                    </span>
+
+                </div>
 
 
-        <div class="form-group">
+                <div class="summary-row">
 
-            <label for="customer">
-                Customer
-            </label>
+                    <span class="summary-label">
+                        Amount Paid
+                    </span>
 
-            <select
-                name="customer"
-                id="customer"
-                required
-            >
+                    <span class="summary-value">
+                        ₦{{ receipt.amount_paid }}
+                    </span>
 
-                {% for customer in customers %}
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span class="summary-label">
+                        Balance
+                    </span>
+
+                    <span class="summary-value balance">
+                        ₦{{ balance }}
+                    </span>
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <div class="form-group">
+
+                <label for="customer">
+                    Customer
+                </label>
+
+                <select
+                    name="customer"
+                    id="customer"
+                    required
+                >
+
+                    {% for customer in customers %}
+
+                        <option
+                            value="{{ customer.id }}"
+                            {% if customer.id == receipt.customer.id %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ customer.name }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="quotation">
+                    Quotation
+                </label>
+
+                <select
+                    name="quotation"
+                    id="quotation"
+                >
+
+                    <option value="">
+                        -- No Quotation --
+                    </option>
+
+                    {% for quotation in quotations %}
+
+                        <option
+                            value="{{ quotation.id }}"
+                            {% if receipt.quotation and quotation.id == receipt.quotation.id %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ quotation.quotation_number }}
+                            — {{ quotation.customer.name }}
+                            — ₦{{ quotation.total }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="amount_paid">
+                    Amount Paid (₦)
+                </label>
+
+                <input
+                    type="number"
+                    name="amount_paid"
+                    id="amount_paid"
+                    step="0.01"
+                    min="0"
+                    value="{{ receipt.amount_paid }}"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="payment_method">
+                    Payment Method
+                </label>
+
+                <select
+                    name="payment_method"
+                    id="payment_method"
+                    required
+                >
 
                     <option
-                        value="{{ customer.id }}"
-                        {% if customer.id == receipt.customer.id %}
+                        value="transfer"
+                        {% if receipt.payment_method == "transfer" %}
                             selected
                         {% endif %}
                     >
-
-                        {{ customer.name }}
-
+                        Bank Transfer
                     </option>
 
-                {% endfor %}
-
-            </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label for="quotation">
-                Quotation
-            </label>
-
-            <select
-                name="quotation"
-                id="quotation"
-            >
-
-                <option value="">
-                    -- No Quotation --
-                </option>
-
-                {% for quotation in quotations %}
 
                     <option
-                        value="{{ quotation.id }}"
-                        {% if receipt.quotation and quotation.id == receipt.quotation.id %}
+                        value="cash"
+                        {% if receipt.payment_method == "cash" %}
                             selected
                         {% endif %}
                     >
-
-                        {{ quotation.quotation_number }}
-                        — {{ quotation.customer.name }}
-                        — ₦{{ quotation.total }}
-
+                        Cash
                     </option>
 
-                {% endfor %}
 
-            </select>
+                    <option
+                        value="pos"
+                        {% if receipt.payment_method == "pos" %}
+                            selected
+                        {% endif %}
+                    >
+                        POS
+                    </option>
 
-        </div>
+
+                    <option
+                        value="card"
+                        {% if receipt.payment_method == "card" %}
+                            selected
+                        {% endif %}
+                    >
+                        Card
+                    </option>
 
 
-        <div class="form-group">
+                    <option
+                        value="other"
+                        {% if receipt.payment_method == "other" %}
+                            selected
+                        {% endif %}
+                    >
+                        Other
+                    </option>
 
-            <label for="amount_paid">
-                Amount Paid (₦)
-            </label>
+                </select>
 
-            <input
-                type="number"
-                name="amount_paid"
-                id="amount_paid"
-                step="0.01"
-                min="0"
-                value="{{ receipt.amount_paid }}"
-                required
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="description">
+                    Description / Purpose
+                </label>
+
+                <textarea
+                    name="description"
+                    id="description"
+                    placeholder="Payment purpose"
+                >{{ receipt.description }}</textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="notes">
+                    Notes
+                </label>
+
+                <textarea
+                    name="notes"
+                    id="notes"
+                    placeholder="Additional notes"
+                >{{ receipt.notes }}</textarea>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="button"
             >
+                💾 Update Receipt
+            </button>
 
-        </div>
-
-
-        <div class="form-group">
-
-            <label for="payment_method">
-                Payment Method
-            </label>
-
-            <select
-                name="payment_method"
-                id="payment_method"
-                required
-            >
-
-                <option
-                    value="transfer"
-                    {% if receipt.payment_method == "transfer" %}
-                        selected
-                    {% endif %}
-                >
-                    Bank Transfer
-                </option>
-
-                <option
-                    value="cash"
-                    {% if receipt.payment_method == "cash" %}
-                        selected
-                    {% endif %}
-                >
-                    Cash
-                </option>
-
-                <option
-                    value="pos"
-                    {% if receipt.payment_method == "pos" %}
-                        selected
-                    {% endif %}
-                >
-                    POS
-                </option>
-
-                <option
-                    value="card"
-                    {% if receipt.payment_method == "card" %}
-                        selected
-                    {% endif %}
-                >
-                    Card
-                </option>
-
-                <option
-                    value="other"
-                    {% if receipt.payment_method == "other" %}
-                        selected
-                    {% endif %}
-                >
-                    Other
-                </option>
-
-            </select>
-
-        </div>
+        </form>
 
 
-        <div class="form-group">
-
-            <label for="description">
-                Description / Purpose
-            </label>
-
-            <textarea
-                name="description"
-                id="description"
-                placeholder="Payment purpose"
-            >{{ receipt.description }}</textarea>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label for="notes">
-                Notes
-            </label>
-
-            <textarea
-                name="notes"
-                id="notes"
-                placeholder="Additional notes"
-            >{{ receipt.notes }}</textarea>
-
-        </div>
-
-
-        <button
-            type="submit"
-            class="button"
+        <a
+            href="{% url 'receipt_list' %}"
+            class="back"
         >
-            💾 Update Receipt
-        </button>
+            ← Back to Receipts
+        </a>
 
-    </form>
-
-
-    <a
-        href="{% url 'receipt_list' %}"
-        class="back"
-    >
-        ← Back to Receipts
-    </a>
-
-</div>
+    </div>
 
 </main>
 
+
+<footer class="site-footer">
+
+    <p>
+        © 2026 ZeeBiz Manager. All rights reserved.
+    </p>
+
+</footer>
+
+
 </body>
+
 </html>

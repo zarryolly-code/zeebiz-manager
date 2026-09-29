@@ -1,215 +1,311 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Services | ZeeBiz Manager</title>
+<title>Services | ZeeBiz Manager</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f7fb;
-            color: #1f2937;
-        }
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f7fb;
+        color: #1f2937;
+        overflow-x: hidden;
+    }
+
+    header {
+        background: #111827;
+        color: white;
+        padding: 20px 8%;
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .container {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 0 20px;
+        min-height: 65vh;
+    }
+
+    .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        gap: 20px;
+    }
+
+    .top h1 {
+        font-size: 32px;
+    }
+
+    .top p {
+        color: #6b7280;
+        margin-top: 8px;
+    }
+
+    .actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .back,
+    .add-btn {
+        display: inline-block;
+        padding: 12px 18px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .back {
+        background: white;
+        color: #111827;
+        border: 1px solid #d1d5db;
+    }
+
+    .add-btn {
+        background: #111827;
+        color: white;
+    }
+
+    .service-card {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        margin-bottom: 18px;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+    }
+
+    .service-card h2 {
+        margin-bottom: 15px;
+        word-break: break-word;
+    }
+
+    .service-info {
+        color: #4b5563;
+        line-height: 1.8;
+    }
+
+    .service-info p {
+        margin-bottom: 5px;
+        word-break: break-word;
+    }
+
+    .empty {
+        background: white;
+        padding: 40px;
+        border-radius: 12px;
+        text-align: center;
+        color: #6b7280;
+    }
+
+    .site-footer {
+        text-align: center;
+        padding: 30px 20px;
+        margin-top: 50px;
+        background: #1f2937;
+        color: white;
+        font-size: 14px;
+    }
+
+    @media (max-width: 700px) {
 
         header {
-            background: #111827;
-            color: white;
-            padding: 20px 8%;
+            padding: 18px 5%;
+            text-align: center;
         }
 
         .logo {
-            font-size: 24px;
-            font-weight: bold;
+            font-size: 22px;
         }
 
         .container {
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 0 20px;
+            margin: 30px auto;
+            padding: 0 15px;
+            min-height: 60vh;
         }
 
         .top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            gap: 20px;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 18px;
+            margin-bottom: 25px;
         }
 
         .top h1 {
-            font-size: 32px;
+            font-size: 30px;
         }
 
         .top p {
-            color: #6b7280;
-            margin-top: 8px;
+            font-size: 15px;
+            line-height: 1.5;
         }
 
         .actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
+            width: 100%;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
         }
 
         .back,
         .add-btn {
-            display: inline-block;
-            padding: 12px 18px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .back {
-            background: white;
-            color: #111827;
-            border: 1px solid #d1d5db;
-        }
-
-        .add-btn {
-            background: #111827;
-            color: white;
+            width: 100%;
+            text-align: center;
+            padding: 12px 15px;
         }
 
         .service-card {
-            background: white;
-            padding: 25px;
+            padding: 20px;
+            margin-bottom: 15px;
             border-radius: 12px;
-            margin-bottom: 18px;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
         }
 
         .service-card h2 {
-            margin-bottom: 15px;
+            font-size: 21px;
         }
 
         .service-info {
-            color: #4b5563;
-            line-height: 1.8;
-        }
-
-        .service-info p {
-            margin-bottom: 5px;
+            font-size: 15px;
+            line-height: 1.7;
         }
 
         .empty {
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            text-align: center;
-            color: #6b7280;
+            padding: 30px 20px;
         }
 
-        @media (max-width: 700px) {
-            .top {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .actions {
-                width: 100%;
-            }
-
-            .back,
-            .add-btn {
-                text-align: center;
-            }
+        .site-footer {
+            margin-top: 35px;
+            padding: 25px 15px;
+            font-size: 13px;
         }
-    </style>
+    }
+
+    @media (max-width: 380px) {
+
+        .container {
+            padding: 0 12px;
+        }
+
+        .top h1 {
+            font-size: 27px;
+        }
+
+        .service-card {
+            padding: 17px;
+        }
+
+        .service-card h2 {
+            font-size: 19px;
+        }
+    }
+</style>
+
 </head>
 
 <body>
 
-    <header>
-        <div class="logo">ZeeBiz Manager</div>
-    </header>
+<header>
+    <div class="logo">ZeeBiz Manager</div>
+</header>
 
-    <main class="container">
+<main class="container">
 
-        <div class="top">
+    <div class="top">
 
-            <div>
-                <h1>Services 🧹</h1>
+        <div>
+            <h1>Services 🧹</h1>
+
+            <p>
+                Manage services performed for your customers.
+            </p>
+        </div>
+
+        <div class="actions">
+
+            <a href="/accounts/dashboard/" class="back">
+                ← Back to Dashboard
+            </a>
+
+            <a href="/accounts/services/add/" class="add-btn">
+                + Add Service
+            </a>
+
+        </div>
+
+    </div>
+
+    {% for service in service_records %}
+
+        <div class="service-card">
+
+            <h2>
+                {{ service.service_name }}
+            </h2>
+
+            <div class="service-info">
 
                 <p>
-                    Manage services performed for your customers.
+                    <strong>Customer:</strong>
+                    {{ service.customer.name }}
                 </p>
-            </div>
 
-            <div class="actions">
+                <p>
+                    <strong>Date:</strong>
+                    {{ service.service_date }}
+                </p>
 
-                <a href="/accounts/dashboard/" class="back">
-                    ← Back to Dashboard
-                </a>
+                <p>
+                    <strong>Amount:</strong>
+                    ₦{{ service.amount }}
+                </p>
 
-                <a href="/accounts/services/add/" class="add-btn">
-                    + Add Service
-                </a>
+                {% if service.description %}
+
+                    <p>
+                        <strong>Description:</strong>
+                        {{ service.description }}
+                    </p>
+
+                {% endif %}
 
             </div>
 
         </div>
 
-        {% for service in service_records %}
+    {% empty %}
 
-            <div class="service-card">
+        <div class="empty">
 
-                <h2>
-                    {{ service.service_name }}
-                </h2>
+            <p>
+                No service records have been added yet.
+            </p>
 
-                <div class="service-info">
+        </div>
 
-                    <p>
-                        <strong>Customer:</strong>
-                        {{ service.customer.name }}
-                    </p>
+    {% endfor %}
 
-                    <p>
-                        <strong>Date:</strong>
-                        {{ service.service_date }}
-                    </p>
+</main>
 
-                    <p>
-                        <strong>Amount:</strong>
-                        ₦{{ service.amount }}
-                    </p>
-
-                    {% if service.description %}
-
-                        <p>
-                            <strong>Description:</strong>
-                            {{ service.description }}
-                        </p>
-
-                    {% endif %}
-
-                </div>
-
-            </div>
-
-        {% empty %}
-
-            <div class="empty">
-
-                <p>
-                    No service records have been added yet.
-                </p>
-
-            </div>
-
-        {% endfor %}
-
-    </main>
+<footer class="site-footer">
+    <p>© 2026 ZeeBiz Manager. All rights reserved.</p>
+</footer>
 
 </body>
 </html>

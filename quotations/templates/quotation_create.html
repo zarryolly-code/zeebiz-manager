@@ -1,180 +1,326 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-```
-<title>New Quotation | ZeeBiz Manager</title>
+    <title>New Quotation | ZeeBiz Manager</title>
 
-<style>
-    :root {
-        --primary: {{ business.primary_color|default:"#1F4E79" }};
-        --secondary: {{ business.secondary_color|default:"#F59E0B" }};
-    }
-
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
-
-    body {
-        font-family: Arial, sans-serif;
-        background: #f5f7fb;
-        color: #1f2937;
-    }
-
-    header {
-        background: var(--primary);
-        color: white;
-        padding: 20px 8%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 4px solid var(--secondary);
-    }
-
-    .logo {
-        font-size: 24px;
-        font-weight: bold;
-    }
-
-    .container {
-        max-width: 1000px;
-        margin: 40px auto;
-        padding: 0 20px;
-    }
-
-    .page-title {
-        margin-bottom: 25px;
-    }
-
-    .page-title h1 {
-        margin-bottom: 8px;
-        color: var(--primary);
-    }
-
-    .page-title p {
-        color: #6b7280;
-    }
-
-    .form-card {
-        background: white;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
-        margin-bottom: 25px;
-        border-top: 3px solid var(--primary);
-    }
-
-    .form-card h2 {
-        margin-bottom: 20px;
-        color: var(--primary);
-    }
-
-    .form-group {
-        margin-bottom: 18px;
-    }
-
-    label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 7px;
-    }
-
-    input,
-    select,
-    textarea {
-        width: 100%;
-        padding: 11px;
-        border: 1px solid #d1d5db;
-        border-radius: 7px;
-        font-size: 14px;
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-        outline: none;
-        border-color: var(--primary);
-    }
-
-    textarea {
-        min-height: 90px;
-        resize: vertical;
-    }
-
-    .item {
-        border: 1px solid #e5e7eb;
-        padding: 20px;
-        border-radius: 10px;
-        margin-bottom: 15px;
-        background: #fafafa;
-        border-left: 4px solid var(--secondary);
-    }
-
-    .item-grid {
-        display: grid;
-        grid-template-columns: 2fr 1fr 1fr;
-        gap: 15px;
-    }
-
-    .buttons {
-        display: flex;
-        gap: 12px;
-        margin-top: 25px;
-    }
-
-    button,
-    .back-button {
-        border: none;
-        padding: 12px 20px;
-        border-radius: 8px;
-        font-weight: bold;
-        cursor: pointer;
-        text-decoration: none;
-        display: inline-block;
-    }
-
-    .save-button {
-        background: var(--primary);
-        color: white;
-    }
-
-    .add-button {
-        background: var(--secondary);
-        color: white;
-        margin-top: 10px;
-    }
-
-    .back-button {
-        background: #e5e7eb;
-        color: #111827;
-    }
-
-    .remove-button {
-        background: #fee2e2;
-        color: #991b1b;
-        margin-top: 15px;
-    }
-
-    @media (max-width: 700px) {
-        .item-grid {
-            grid-template-columns: 1fr;
+    <style>
+        :root {
+            --primary: {{ business.primary_color|default:"#1F4E79" }};
+            --secondary: {{ business.secondary_color|default:"#F59E0B" }};
         }
 
-        .form-card {
-            padding: 20px;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+            overflow-x: hidden;
         }
 
         header {
-            padding: 18px 5%;
+            background: var(--primary);
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            border-bottom: 4px solid var(--secondary);
         }
-    }
-</style>
-```
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        header > div:last-child {
+            word-break: break-word;
+            text-align: right;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+            min-height: 65vh;
+        }
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h1 {
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        .page-title p {
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        .form-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+            margin-bottom: 25px;
+            border-top: 3px solid var(--primary);
+        }
+
+        .form-card h2 {
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: 21px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 14px;
+            font-family: inherit;
+            background: white;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(31, 78, 121, 0.08);
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        .item {
+            border: 1px solid #e5e7eb;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            background: #fafafa;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .item-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 15px;
+        }
+
+        .item .form-group {
+            margin-top: 15px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        button,
+        .back-button {
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 15px;
+            font-family: inherit;
+        }
+
+        .save-button {
+            background: var(--primary);
+            color: white;
+        }
+
+        .save-button:hover {
+            opacity: 0.92;
+        }
+
+        .add-button {
+            background: var(--secondary);
+            color: white;
+            margin-top: 10px;
+        }
+
+        .add-button:hover {
+            opacity: 0.92;
+        }
+
+        .back-button {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        .back-button:hover {
+            background: #d1d5db;
+        }
+
+        .remove-button {
+            background: #fee2e2;
+            color: #991b1b;
+            margin-top: 15px;
+        }
+
+        .remove-button:hover {
+            background: #fecaca;
+        }
+
+        .site-footer {
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+            background: #1f2937;
+            color: white;
+            font-size: 14px;
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 18px 5%;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 8px;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            header > div:last-child {
+                font-size: 14px;
+                text-align: center;
+            }
+
+            .container {
+                margin: 30px auto;
+                padding: 0 15px;
+                min-height: 60vh;
+            }
+
+            .page-title {
+                margin-bottom: 20px;
+            }
+
+            .page-title h1 {
+                font-size: 28px;
+                line-height: 1.25;
+            }
+
+            .page-title p {
+                font-size: 14px;
+            }
+
+            .form-card {
+                padding: 20px;
+                margin-bottom: 20px;
+                border-radius: 10px;
+            }
+
+            .form-card h2 {
+                font-size: 19px;
+                margin-bottom: 18px;
+            }
+
+            .item-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .item {
+                padding: 16px;
+            }
+
+            input,
+            select,
+            textarea {
+                font-size: 16px;
+                padding: 12px;
+            }
+
+            .add-button {
+                width: 100%;
+                text-align: center;
+                padding: 13px 15px;
+            }
+
+            .buttons {
+                flex-direction: column;
+                gap: 10px;
+                margin-top: 20px;
+            }
+
+            .save-button,
+            .back-button {
+                width: 100%;
+                text-align: center;
+                padding: 13px 15px;
+            }
+
+            .site-footer {
+                margin-top: 35px;
+                padding: 25px 15px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 380px) {
+
+            .container {
+                padding: 0 12px;
+            }
+
+            .page-title h1 {
+                font-size: 25px;
+            }
+
+            .form-card {
+                padding: 16px;
+            }
+
+            .form-card h2 {
+                font-size: 18px;
+            }
+
+            .item {
+                padding: 14px;
+            }
+        }
+    </style>
 
 </head>
 
@@ -187,192 +333,194 @@
 
 <main class="container">
 
-```
-<section class="page-title">
-    <h1>📋 New Quotation</h1>
-    <p>Create a professional quotation for your customer.</p>
-</section>
+    <section class="page-title">
+        <h1>📋 New Quotation</h1>
+        <p>Create a professional quotation for your customer.</p>
+    </section>
 
-<form method="POST">
+    <form method="POST">
 
-    {% csrf_token %}
+        {% csrf_token %}
 
-    <div class="form-card">
+        <div class="form-card">
 
-        <h2>Customer Details</h2>
+            <h2>Customer Details</h2>
 
-        <div class="form-group">
-            <label for="customer">Customer</label>
+            <div class="form-group">
+                <label for="customer">Customer</label>
 
-            <select name="customer" id="customer" required>
+                <select name="customer" id="customer" required>
 
-                <option value="">
-                    -- Select Customer --
-                </option>
-
-                {% for customer in customers %}
-
-                    <option value="{{ customer.id }}">
-                        {{ customer.name }}
+                    <option value="">
+                        -- Select Customer --
                     </option>
 
-                {% endfor %}
+                    {% for customer in customers %}
 
-            </select>
-        </div>
+                        <option value="{{ customer.id }}">
+                            {{ customer.name }}
+                        </option>
 
-        <div class="form-group">
+                    {% endfor %}
 
-            <label for="valid_until">
-                Valid Until
-            </label>
+                </select>
+            </div>
 
-            <input
-                type="date"
-                name="valid_until"
-                id="valid_until"
-            >
+            <div class="form-group">
 
-        </div>
+                <label for="valid_until">
+                    Valid Until
+                </label>
 
-    </div>
-
-
-    <div class="form-card">
-
-        <h2>Quotation Items</h2>
-
-        <div id="items">
-
-            <div class="item">
-
-                <div class="item-grid">
-
-                    <div>
-                        <label>Service / Item</label>
-
-                        <input
-                            type="text"
-                            name="service_name"
-                            placeholder="e.g. Deep Cleaning"
-                            required
-                        >
-                    </div>
-
-                    <div>
-                        <label>Quantity</label>
-
-                        <input
-                            type="number"
-                            name="quantity"
-                            value="1"
-                            min="0.01"
-                            step="0.01"
-                            required
-                        >
-                    </div>
-
-                    <div>
-                        <label>Unit Price (₦)</label>
-
-                        <input
-                            type="number"
-                            name="unit_price"
-                            placeholder="0.00"
-                            min="0"
-                            step="0.01"
-                            required
-                        >
-                    </div>
-
-                </div>
-
-                <div class="form-group" style="margin-top: 15px;">
-
-                    <label>Description</label>
-
-                    <textarea
-                        name="description"
-                        placeholder="Optional description"
-                    ></textarea>
-
-                </div>
+                <input
+                    type="date"
+                    name="valid_until"
+                    id="valid_until"
+                >
 
             </div>
 
         </div>
 
-        <button
-            type="button"
-            class="add-button"
-            onclick="addItem()"
-        >
-            + Add Another Item
-        </button>
 
-    </div>
+        <div class="form-card">
 
+            <h2>Quotation Items</h2>
 
-    <div class="form-card">
+            <div id="items">
 
-        <h2>Discount & Notes</h2>
+                <div class="item">
 
-        <div class="form-group">
+                    <div class="item-grid">
 
-            <label for="discount">
-                Discount (₦)
-            </label>
+                        <div>
+                            <label>Service / Item</label>
 
-            <input
-                type="number"
-                name="discount"
-                id="discount"
-                value="0"
-                min="0"
-                step="0.01"
+                            <input
+                                type="text"
+                                name="service_name"
+                                placeholder="e.g. Deep Cleaning"
+                                required
+                            >
+                        </div>
+
+                        <div>
+                            <label>Quantity</label>
+
+                            <input
+                                type="number"
+                                name="quantity"
+                                value="1"
+                                min="0.01"
+                                step="0.01"
+                                required
+                            >
+                        </div>
+
+                        <div>
+                            <label>Unit Price (₦)</label>
+
+                            <input
+                                type="number"
+                                name="unit_price"
+                                placeholder="0.00"
+                                min="0"
+                                step="0.01"
+                                required
+                            >
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Description</label>
+
+                        <textarea
+                            name="description"
+                            placeholder="Optional description"
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button
+                type="button"
+                class="add-button"
+                onclick="addItem()"
             >
+                + Add Another Item
+            </button>
 
         </div>
 
-        <div class="form-group">
 
-            <label for="notes">
-                Notes
-            </label>
+        <div class="form-card">
 
-            <textarea
-                name="notes"
-                id="notes"
-                placeholder="Terms, payment information, or other notes..."
-            ></textarea>
+            <h2>Discount & Notes</h2>
+
+            <div class="form-group">
+
+                <label for="discount">
+                    Discount (₦)
+                </label>
+
+                <input
+                    type="number"
+                    name="discount"
+                    id="discount"
+                    value="0"
+                    min="0"
+                    step="0.01"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="notes">
+                    Notes
+                </label>
+
+                <textarea
+                    name="notes"
+                    id="notes"
+                    placeholder="Terms, payment information, or other notes..."
+                ></textarea>
+
+            </div>
 
         </div>
 
-    </div>
 
+        <div class="buttons">
 
-    <div class="buttons">
+            <button
+                type="submit"
+                class="save-button"
+            >
+                Save Quotation
+            </button>
 
-        <button
-            type="submit"
-            class="save-button"
-        >
-            Save Quotation
-        </button>
+            <a
+                href="{% url 'quotation_list' %}"
+                class="back-button"
+            >
+                Cancel
+            </a>
 
-        <a
-            href="{% url 'quotation_list' %}"
-            class="back-button"
-        >
-            Cancel
-        </a>
+        </div>
 
-    </div>
-
-</form>
-```
+    </form>
 
 </main>
+
+<footer class="site-footer">
+    <p>© 2026 ZeeBiz Manager. All rights reserved.</p>
+</footer>
 
 <script>
 
@@ -426,7 +574,7 @@ function addItem() {
 
         </div>
 
-        <div class="form-group" style="margin-top: 15px;">
+        <div class="form-group">
 
             <label>Description</label>
 
@@ -435,19 +583,18 @@ function addItem() {
                 placeholder="Optional description"
             ></textarea>
 
+        </div>
 
-    </div>
+        <button
+            type="button"
+            class="remove-button"
+            onclick="this.parentElement.remove()"
+        >
+            Remove Item
+        </button>
+    `;
 
-    <button
-        type="button"
-        class="remove-button"
-        onclick="this.parentElement.remove()"
-    >
-        Remove Item
-    </button>
-`;
-
-items.appendChild(item);
+    items.appendChild(item);
 
 }
 

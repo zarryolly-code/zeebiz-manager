@@ -1,121 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Delete Quotation | ZeeBiz Manager</title>
 
     <style>
+
         :root {
+
             --primary: {{ business.primary_color|default:"#1F4E79" }};
+
             --secondary: {{ business.secondary_color|default:"#F59E0B" }};
+
         }
 
         * {
+
             box-sizing: border-box;
+
             margin: 0;
+
             padding: 0;
+
         }
 
         body {
+
             font-family: Arial, sans-serif;
+
             background: #f3f4f6;
+
             color: #1f2937;
+
+            overflow-x: hidden;
+
         }
 
         .container {
+
             max-width: 600px;
+
             margin: 80px auto;
+
             padding: 20px;
+
         }
 
         .card {
+
             background: white;
+
             padding: 40px;
+
             border-radius: 15px;
+
             text-align: center;
+
             box-shadow: 0 5px 25px rgba(0,0,0,.08);
+
         }
 
         .icon {
+
             font-size: 55px;
+
             margin-bottom: 20px;
+
         }
 
         h1 {
+
             color: #dc2626;
+
             margin-bottom: 15px;
+
         }
 
         p {
+
             color: #64748b;
+
             line-height: 1.6;
+
             margin-bottom: 10px;
+
         }
 
         .quotation-number {
+
             font-weight: bold;
+
             color: var(--primary);
+
             margin: 20px 0;
+
+            overflow-wrap: anywhere;
+
         }
 
         .warning {
+
             background: #fef2f2;
+
             border: 1px solid #fecaca;
+
             color: #991b1b;
+
             padding: 15px;
+
             border-radius: 8px;
+
             margin: 20px 0;
+
         }
 
         .buttons {
+
             display: flex;
+
             gap: 12px;
+
             justify-content: center;
+
+            align-items: stretch;
+
             margin-top: 25px;
+
+        }
+
+        .buttons form {
+
+            display: flex;
+
+            flex: 1;
+
         }
 
         button,
         a {
+
             padding: 13px 22px;
+
             border-radius: 8px;
+
             border: none;
+
             font-weight: bold;
+
             font-size: 15px;
+
             text-decoration: none;
+
             cursor: pointer;
+
+            text-align: center;
+
+            flex: 1;
+
         }
 
         .delete-button {
+
             background: #dc2626;
+
             color: white;
+
         }
 
         .cancel-button {
+
             background: #e5e7eb;
+
             color: #1f2937;
+
         }
 
         .delete-button:hover {
+
             background: #b91c1c;
+
         }
 
         @media (max-width: 600px) {
+
+            .container {
+
+                width: 100%;
+
+                margin: 30px auto;
+
+                padding: 12px;
+
+            }
+
             .card {
+
                 padding: 30px 20px;
+
+                border-radius: 12px;
+
+            }
+
+            .icon {
+
+                font-size: 48px;
+
+                margin-bottom: 15px;
+
+            }
+
+            h1 {
+
+                font-size: 28px;
+
+                line-height: 1.2;
+
+            }
+
+            p {
+
+                font-size: 15px;
+
+            }
+
+            .warning {
+
+                padding: 14px;
+
+                line-height: 1.5;
+
             }
 
             .buttons {
+
                 flex-direction: column;
+
+                gap: 12px;
+
+            }
+
+            .buttons form {
+
+                width: 100%;
+
+                flex: none;
+
             }
 
             button,
             a {
+
                 width: 100%;
+
+                min-height: 48px;
+
+                display: flex;
+
+                align-items: center;
+
+                justify-content: center;
+
             }
+
         }
+
+        @media (max-width: 380px) {
+
+            .container {
+
+                margin: 15px auto;
+
+                padding: 8px;
+
+            }
+
+            .card {
+
+                padding: 25px 15px;
+
+            }
+
+            h1 {
+
+                font-size: 25px;
+
+            }
+
+        }
+
     </style>
+
 </head>
 
 <body>

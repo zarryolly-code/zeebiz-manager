@@ -18,6 +18,11 @@
             padding: 0;
         }
 
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background: #f5f7fb;
@@ -32,21 +37,27 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 5px solid var(--secondary);
+            gap: 15px;
         }
 
         .logo {
             font-size: 24px;
             font-weight: bold;
+            flex-shrink: 0;
         }
 
         .business-name {
             font-size: 18px;
+            text-align: right;
+            overflow-wrap: anywhere;
+            word-break: break-word;
         }
 
         .container {
             max-width: 1200px;
             margin: 45px auto;
             padding: 0 25px;
+            min-height: calc(100vh - 180px);
         }
 
         .back {
@@ -69,11 +80,13 @@
             color: var(--primary);
             font-size: 42px;
             margin-bottom: 10px;
+            overflow-wrap: anywhere;
         }
 
         .heading p {
             color: #64748b;
             font-size: 18px;
+            line-height: 1.6;
         }
 
         .stats {
@@ -89,6 +102,7 @@
             border-radius: 15px;
             border-top: 5px solid var(--primary);
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+            min-width: 0;
         }
 
         .stat-card h3 {
@@ -101,6 +115,7 @@
             color: var(--primary);
             font-size: 32px;
             font-weight: bold;
+            overflow-wrap: anywhere;
         }
 
         .reports-grid {
@@ -115,18 +130,21 @@
             border-radius: 15px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
             border-left: 5px solid var(--secondary);
+            min-width: 0;
         }
 
         .report-card h2 {
             color: var(--primary);
             margin-bottom: 22px;
             font-size: 23px;
+            overflow-wrap: anywhere;
         }
 
         .report-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 20px;
             padding: 13px 0;
             border-bottom: 1px solid #e5e7eb;
         }
@@ -137,15 +155,29 @@
 
         .report-row span {
             color: #64748b;
+            min-width: 0;
+            line-height: 1.4;
         }
 
         .report-row strong {
             color: var(--primary);
             font-size: 18px;
+            text-align: right;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            flex-shrink: 0;
         }
 
         .balance {
             color: var(--secondary) !important;
+        }
+
+        .site-footer {
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 20px;
+            color: #64748b;
+            font-size: 14px;
         }
 
         @media (max-width: 900px) {
@@ -160,21 +192,122 @@
 
         @media (max-width: 600px) {
             header {
+                padding: 18px 5%;
                 flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
+                align-items: stretch;
+                text-align: center;
+                gap: 8px;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .business-name {
+                font-size: 16px;
+                text-align: center;
             }
 
             .container {
                 margin: 30px auto;
+                padding: 0 16px;
+                min-height: calc(100vh - 170px);
+            }
+
+            .back {
+                margin-bottom: 20px;
+            }
+
+            .heading {
+                margin-bottom: 25px;
             }
 
             .heading h1 {
                 font-size: 32px;
+                line-height: 1.2;
+            }
+
+            .heading p {
+                font-size: 16px;
+                line-height: 1.5;
             }
 
             .stats {
                 grid-template-columns: 1fr;
+                gap: 15px;
+                margin-bottom: 25px;
+            }
+
+            .stat-card {
+                padding: 22px;
+            }
+
+            .stat-card .number {
+                font-size: 28px;
+            }
+
+            .reports-grid {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .report-card {
+                padding: 22px 18px;
+            }
+
+            .report-card h2 {
+                font-size: 21px;
+                margin-bottom: 18px;
+            }
+
+            .report-row {
+                gap: 15px;
+                align-items: flex-start;
+            }
+
+            .report-row span {
+                font-size: 14px;
+            }
+
+            .report-row strong {
+                font-size: 16px;
+                max-width: 55%;
+            }
+
+            .site-footer {
+                padding: 25px 16px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .container {
+                padding: 0 12px;
+            }
+
+            .heading h1 {
+                font-size: 28px;
+            }
+
+            .stat-card {
+                padding: 20px 16px;
+            }
+
+            .report-card {
+                padding: 20px 15px;
+            }
+
+            .report-row {
+                gap: 10px;
+            }
+
+            .report-row span {
+                font-size: 13px;
+            }
+
+            .report-row strong {
+                font-size: 15px;
+                max-width: 52%;
             }
         }
     </style>
@@ -479,6 +612,10 @@
     </section>
 
 </main>
+
+<footer class="site-footer">
+    <p>© 2026 ZeeBiz Manager. All rights reserved.</p>
+</footer>
 
 </body>
 </html>

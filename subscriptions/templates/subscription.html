@@ -6,11 +6,18 @@
     <title>Subscription | ZeeBiz Manager</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
             background: #f8fafc;
+            color: #1f2937;
             padding: 40px 8%;
+            overflow-x: hidden;
         }
 
         .subscription-card {
@@ -25,6 +32,12 @@
 
         h1 {
             color: #6A5CFF;
+            margin-bottom: 15px;
+        }
+
+        .business-name {
+            overflow-wrap: anywhere;
+            word-break: break-word;
         }
 
         .plan {
@@ -32,6 +45,11 @@
             font-weight: bold;
             color: #00A86B;
             margin: 20px 0;
+            overflow-wrap: anywhere;
+        }
+
+        .subscription-info {
+            line-height: 1.8;
         }
 
         .status {
@@ -39,60 +57,187 @@
             color: #16a34a;
         }
 
+        .actions {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .choose-plan-button,
         .back-link {
             display: inline-block;
-            margin-top: 25px;
             text-decoration: none;
             color: white;
-            background: linear-gradient(90deg, #00B4DB, #6A5CFF);
             padding: 12px 22px;
             border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .choose-plan-button {
+            background: #111827;
+        }
+
+        .back-link {
+            background: linear-gradient(90deg, #00B4DB, #6A5CFF);
+        }
+
+        .site-footer {
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+            background: #1f2937;
+            color: white;
+            font-size: 14px;
+            margin-left: -8%;
+            margin-right: -8%;
+            margin-bottom: -40px;
+        }
+
+        @media (max-width: 650px) {
+            body {
+                padding: 25px 15px;
+            }
+
+            .subscription-card {
+                width: 100%;
+                margin: 20px auto;
+                padding: 28px 18px;
+                border-radius: 14px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .plan {
+                font-size: 25px;
+                margin: 18px 0;
+            }
+
+            .subscription-info {
+                font-size: 15px;
+            }
+
+            .actions {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+
+            .choose-plan-button,
+            .back-link {
+                width: 100%;
+                display: block;
+                margin: 0 !important;
+            }
+
+            .site-footer {
+                margin-top: 40px;
+                margin-left: -15px;
+                margin-right: -15px;
+                margin-bottom: -25px;
+                padding: 25px 15px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            body {
+                padding: 20px 10px;
+            }
+
+            .subscription-card {
+                padding: 24px 15px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+
+            .plan {
+                font-size: 23px;
+            }
+
+            .choose-plan-button,
+            .back-link {
+                padding: 12px 15px;
+            }
+
+            .site-footer {
+                margin-left: -10px;
+                margin-right: -10px;
+                margin-bottom: -20px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<div class="subscription-card">
+    <div class="subscription-card">
 
-    <h1>Subscription</h1>
+        <h1>Subscription</h1>
 
-    <p><strong>{{ business.name }}</strong></p>
+        <p class="business-name">
+            <strong>{{ business.name }}</strong>
+        </p>
 
-    <div class="plan">
-        {{ subscription.plan }} Plan
+        <div class="plan">
+            {{ subscription.plan }} Plan
+        </div>
+
+        <div class="subscription-info">
+
+            <p>
+                Status:
+                <span class="status">
+                    {% if subscription.is_active %}
+                        Active
+                    {% else %}
+                        Inactive
+                    {% endif %}
+                </span>
+            </p>
+
+            <p>
+                Start Date: {{ subscription.start_date }}
+            </p>
+
+            {% if subscription.expiry_date %}
+                <p>
+                    Expiry Date: {{ subscription.expiry_date }}
+                </p>
+            {% endif %}
+
+        </div>
+
+        <div class="actions">
+
+            <a
+                href="{% url 'plans' %}"
+                class="choose-plan-button"
+            >
+                Choose / Change Plan
+            </a>
+
+            <a
+                href="{% url 'dashboard' %}"
+                class="back-link"
+            >
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
     </div>
 
-    <p>
-        Status:
-        <span class="status">
-            {% if subscription.is_active %}
-                Active
-            {% else %}
-                Inactive
-            {% endif %}
-        </span>
-    </p>
-
-    <p>
-        Start Date: {{ subscription.start_date }}
-    </p>
-
-    {% if subscription.expiry_date %}
-        <p>
-            Expiry Date: {{ subscription.expiry_date }}
-        </p>
-    {% endif %}
-    
-   <a href="{% url 'plans' %}" class="choose-plan-button" style="margin-right: 15px;">
-    Choose / Change Plan
-</a>
-
-    <a href="{% url 'dashboard' %}" class="back-link">
-        ← Back to Dashboard
-    </a>
-
-</div>
+    <footer class="site-footer">
+        <p>© 2026 ZeeBiz Manager. All rights reserved.</p>
+    </footer>
 
 </body>
 </html>
