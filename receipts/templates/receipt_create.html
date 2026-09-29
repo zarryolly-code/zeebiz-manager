@@ -167,6 +167,14 @@
 
         {% csrf_token %}
 
+        {% if invoice %}
+        <input
+            type="hidden"
+            name="invoice_id"
+            value="{{ invoice.id }}"
+        >
+    {% endif %}
+
         <div class="form-group">
 
             <label for="customer">
@@ -185,7 +193,7 @@
 
                 {% for customer in customers %}
 
-                    <option value="{{ customer.id }}">
+                    <option value="{{ customer.id }}"{% if invoice and customer.id == invoice.customer.id %}selected{% endif %}>
                         {{ customer.name }}
                     </option>
 
@@ -212,7 +220,7 @@
 
                 {% for quotation in quotations %}
 
-                    <option value="{{ quotation.id }}">
+                    <option value="{{ quotation.id }}"{% if invoice and invoice.quotation and quotation.id == invoice.quotation.id %}selected{% endif %}>
                         {{ quotation.quotation_number }}
                         — {{ quotation.customer.name }}
                         — ₦{{ quotation.total }}
@@ -237,6 +245,7 @@
                 step="0.01"
                 min="0"
                 placeholder="Enter amount received"
+                value="{% if invoice %}{{ invoice.total }}{% endif %}"
                 required
             >
 
@@ -288,7 +297,9 @@
                 name="description"
                 id="description"
                 placeholder="e.g. Upfront payment for renovation cleaning and fumigation"
-            ></textarea>
+            >
+            {% if invoice %}Payment received for Invoice {{ invoice.invoice_number }}.{% endif %}
+        </textarea>
 
         </div>
 

@@ -42,7 +42,8 @@ def quotation_create(request):
 
     if request.method == "POST":
         if not can_create_document_permanent(business, "quotation"):
-         return redirect("quotation_list")
+            return redirect("/subscription/plans/")
+
         subscription = business.subscription
 
         limits = {
@@ -64,7 +65,7 @@ def quotation_create(request):
             ).count()
 
             if quotation_count >= limit:
-                return redirect("quotation_list")
+                return redirect("/subscription/plans/")
 
         customer_id = request.POST.get("customer")
         valid_until = request.POST.get("valid_until")
@@ -117,6 +118,7 @@ def quotation_create(request):
         },
     )
 
+
 @login_required
 def quotation_detail(
     request,
@@ -142,6 +144,7 @@ def quotation_detail(
             "business": business,
         },
     )
+
 
 @login_required
 def quotation_edit(request, quotation_id):
@@ -206,6 +209,7 @@ def quotation_edit(request, quotation_id):
         },
     )
 
+
 @login_required
 def quotation_to_invoice(
     request,
@@ -237,6 +241,9 @@ def quotation_to_invoice(
             "invoice_detail",
             invoice_id=existing_invoice.id
         )
+
+    if not can_create_document_permanent(business, "invoice"):
+        return redirect("/subscription/plans/")
 
     invoice = Invoice.objects.create(
 
@@ -275,6 +282,7 @@ def quotation_to_invoice(
         "invoice_detail",
         invoice_id=invoice.id
     )
+
 
 @login_required
 def quotation_delete(request, quotation_id):

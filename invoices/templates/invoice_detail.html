@@ -583,7 +583,7 @@
     🗑️ Delete Invoice
 </a>
 
-    <a href="{% url 'receipt_create' %}">
+    <a href="{% url 'receipt_create' %}?invoice_id={{ invoice.id }}">
         💰 Convert to Receipt
     </a>
 

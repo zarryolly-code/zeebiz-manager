@@ -7,6 +7,7 @@ from django.utils import timezone
 from .models import Receipt
 from customers.models import Customer
 from quotations.models import Quotation
+from invoices.models import Invoice
 from usage_limits.views import can_create_document_permanent
 
 
@@ -73,9 +74,20 @@ def receipt_create(request):
         business=business
     ).order_by("-created_at")
 
+    invoice_id = request.GET.get("invoice_id")
+
+    invoice = None
+
+    if invoice_id:
+        invoice = get_object_or_404(
+            Invoice,
+            id=invoice_id,
+            business=business
+        )
+
     if request.method == "POST":
         if not can_create_document_permanent(business, "receipt"):
-         return redirect("receipt_list")
+         return redirect("/subscription/plans/")
         subscription = business.subscription
 
         limits = {
@@ -97,10 +109,23 @@ def receipt_create(request):
             ).count()
 
             if receipt_count >= limit:
-                return redirect("receipt_list")
+               return redirect("/subscription/plans/")
 
         customer_id = request.POST.get("customer")
         quotation_id = request.POST.get("quotation")
+        posted_invoice_id = request.POST.get("invoice_id")
+
+        if posted_invoice_id:
+            invoice = get_object_or_404(
+                Invoice,
+                id=posted_invoice_id,
+                business=business
+            )
+
+            customer = invoice.customer
+
+            if invoice.quotation:
+                quotation = invoice.quotation
 
         customer = get_object_or_404(
             Customer,
@@ -119,6 +144,7 @@ def receipt_create(request):
 
         Receipt.objects.create(
             business=business,
+            invoice=invoice,
             quotation=quotation,
             customer=customer,
             receipt_number=f"RC-{timezone.now().strftime('%Y%m%d%H%M%S')}",
@@ -139,6 +165,7 @@ def receipt_create(request):
             "customers": customers,
             "quotations": quotations,
             "business": business,
+            "invoice": invoice,
         },
     )
 

@@ -81,7 +81,7 @@ def add_customer(request):
     if request.method == "POST":
 
         if not can_create_document_permanent(business, "customer"):
-         return redirect("customers")
+         return redirect("/subscription/plans/")
         subscription = business.subscription
 
         limits = {
@@ -94,7 +94,7 @@ def add_customer(request):
         limit = limits.get(subscription.plan, 2)
 
         if limit is not None and Customer.objects.filter(business=business).count() >= limit:
-            return redirect("customers")
+            return redirect("/subscription/plans/")
 
         name = request.POST.get("name")
         email = request.POST.get("email")

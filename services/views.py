@@ -37,7 +37,7 @@ def add_service(request):
     if request.method == "POST":
 
         if not can_create_document_permanent(business, "service"):
-         return redirect("service_list")
+         return redirect("/subscription/plans/")
         subscription = business.subscription
 
         limits = {
@@ -50,7 +50,7 @@ def add_service(request):
         limit = limits.get(subscription.plan, 2)
 
         if limit is not None and ServiceRecord.objects.filter(business=business).count() >= limit:
-            return redirect("service_list")
+            return redirect("/subscription/plans/")
 
         customer_id = request.POST.get("customer")
         service_name = request.POST.get("service_name")

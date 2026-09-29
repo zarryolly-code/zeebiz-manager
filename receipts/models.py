@@ -31,7 +31,9 @@ class Receipt(models.Model):
     related_name="receipts",
     null=True,
     blank=True
-)
+    )
+
+    invoice = models.ForeignKey( "invoices.Invoice", on_delete=models.SET_NULL, related_name="receipts", null=True, blank=True )
 
     receipt_number = models.CharField(
         max_length=50,

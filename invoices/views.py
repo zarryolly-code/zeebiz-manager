@@ -73,7 +73,7 @@ def invoice_create(request):
 
     if request.method == "POST":
         if not can_create_document_permanent(business, "invoice"):
-          return redirect("invoice_list")
+          return redirect("/subscription/plans/")
         subscription = business.subscription
 
         limits = {
@@ -99,7 +99,7 @@ def invoice_create(request):
             ).count()
 
             if invoice_count >= limit:
-                return redirect("invoice_list")
+                return redirect("/subscription/plans/")
 
         customer_id = request.POST.get("customer")
 
