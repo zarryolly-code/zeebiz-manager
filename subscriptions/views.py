@@ -34,9 +34,9 @@ def plans(request):
 
 def choose_plan(request, plan_name):
     prices = {
-        "Starter": 25000,
-        "Business": 30000,
-        "Premium": 40000,
+        "Starter": 7000,
+        "Business": 12000,
+        "Premium": 20000,
     }
 
     price = prices.get(plan_name, 0)
@@ -54,9 +54,9 @@ def choose_plan(request, plan_name):
 @login_required
 def paystack_payment(request, plan_name):
     prices = {
-        "Starter": 25000,
-        "Business": 30000,
-        "Premium": 40000,
+        "Starter": 7000,
+        "Business": 12000,
+        "Premium": 20000,
     }
 
     price = prices.get(plan_name)
@@ -140,9 +140,9 @@ def paystack_success(request):
         return redirect("subscription")
 
     prices = {
-        "Starter": Decimal("25000"),
-        "Business": Decimal("30000"),
-        "Premium": Decimal("40000"),
+        "Starter": Decimal("7000"),
+        "Business": Decimal("12000"),
+        "Premium": Decimal("20000"),
     }
 
     price = prices.get(plan_name)
