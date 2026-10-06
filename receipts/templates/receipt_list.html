@@ -245,11 +245,67 @@
 
             .card {
                 width: 100%;
-                overflow-x: auto;
+                overflow-x: hidden;
             }
 
             table {
-                min-width: 1050px;
+                min-width: 0;
+                width: 100%;
+                table-layout: fixed;
+            }
+
+            th,
+            td {
+                padding: 9px 4px;
+                font-size: 10px;
+                white-space: normal;
+                word-break: break-word;
+                overflow-wrap: anywhere;
+            }
+
+            th:nth-child(1),
+            td:nth-child(1) {
+                width: 12%;
+            }
+
+            th:nth-child(2),
+            td:nth-child(2) {
+                width: 14%;
+            }
+
+            th:nth-child(3),
+            td:nth-child(3) {
+                width: 11%;
+            }
+
+            th:nth-child(4),
+            td:nth-child(4) {
+                width: 11%;
+            }
+
+            th:nth-child(5),
+            td:nth-child(5) {
+                width: 11%;
+            }
+
+            th:nth-child(6),
+            td:nth-child(6) {
+                width: 11%;
+            }
+
+            th:nth-child(7),
+            td:nth-child(7) {
+                width: 11%;
+            }
+
+            th:nth-child(8),
+            td:nth-child(8) {
+                width: 10%;
+            }
+
+            th:nth-child(9),
+            td:nth-child(9) {
+                width: 9%;
             }
 
             .back {
@@ -283,7 +339,8 @@
 
             th,
             td {
-                padding: 13px;
+                padding: 7px 3px;
+                font-size: 9px;
             }
         }
 

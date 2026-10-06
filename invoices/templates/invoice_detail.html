@@ -398,12 +398,28 @@
             }
 
             .table {
-                min-width: 550px;
+                min-width: 0;
+                width: 100%;
+                table-layout: fixed;
             }
 
             .table th,
             .table td {
-                padding: 12px;
+                padding: 10px 8px;
+                font-size: 12px;
+                white-space: normal;
+                word-break: break-word;
+                overflow-wrap: anywhere;
+            }
+
+            .table th:first-child,
+            .table td:first-child {
+                width: 65%;
+            }
+
+            .table th:last-child,
+            .table td:last-child {
+                width: 35%;
             }
 
             .summary {

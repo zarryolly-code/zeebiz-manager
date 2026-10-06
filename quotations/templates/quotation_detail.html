@@ -784,6 +784,47 @@
 
             }
 
+                    .items {
+            display: table;
+            width: 100%;
+            min-width: 0;
+            table-layout: fixed;
+        }
+
+        .items th,
+        .items td {
+            padding: 8px 4px;
+            font-size: 10px;
+            white-space: normal;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .items th:nth-child(1),
+        .items td:nth-child(1) {
+            width: 21%;
+        }
+
+        .items th:nth-child(2),
+        .items td:nth-child(2) {
+            width: 31%;
+        }
+
+        .items th:nth-child(3),
+        .items td:nth-child(3) {
+            width: 10%;
+        }
+
+        .items th:nth-child(4),
+        .items td:nth-child(4) {
+            width: 19%;
+        }
+
+        .items th:nth-child(5),
+        .items td:nth-child(5) {
+            width: 19%;
+        }
+
             .summary-row {
 
                 gap: 15px;

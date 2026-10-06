@@ -86,8 +86,8 @@ def add_customer(request):
 
         limits = {
             "Free": 2,
-            "Starter": 50,
-            "Business": 500,
+            "Starter": 30,
+            "Business": 50,
             "Premium": None,
         }
 

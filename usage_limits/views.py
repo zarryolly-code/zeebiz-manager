@@ -26,11 +26,11 @@ PLAN_LIMITS = {
         "receipt": 30,
     },
     "Business": {
-        "service": 200,
-        "customer": 200,
-        "quotation": 200,
-        "invoice": 200,
-        "receipt": 200,
+        "service": 50,
+        "customer": 50,
+        "quotation": 50,
+        "invoice": 50,
+        "receipt": 50,
     },
     "Premium": {
         "service": None,
